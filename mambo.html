@@ -13,7 +13,9 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #040913;
+            background: radial-gradient(circle at top right, rgba(10, 44, 58, 0.18), transparent 55%),
+                        radial-gradient(circle at bottom left, rgba(132, 138, 252, 0.18), transparent 55%),
+                        linear-gradient(180deg, #0a1325 0%, #1e283a 100%);
             color: #f8fafc;
             padding-left: 50px;  /* Padding on the left side */
             padding-right: 50px; /* Padding on the right side */
@@ -96,9 +98,9 @@
         <!-- 1. Motivation & Problem Definition -->
         <section id="about" class="grid md:grid-cols-2 gap-12 items-center">
             <div>
-                <div style="height: 30px;"></div>
+                <div style="height: 40px;"></div>
                 <h2 class="text-3xl font-bold mb-6">Motivation & Objectives</h2>
-                <div class="space-y-4 text-slate-300">
+                <div class="space-y-3 text-slate-200 text">
                     <p>
                         Professional audio editing or mixing often requires experts to navigate complex GUI environments in the Digital Audio Workstations (DAWs). For music or audio editing, the threshold is reasonably high and the learning curve is painful. For light users who just want to apply a quick effect or convert formats, a natural language driven audio edting engine would be more beneficial than traditional DAW.
                     </p>
@@ -110,44 +112,105 @@
                     </p>
                 </div>
             </div>
-            <div class="glass-card p-8 rounded-2xl border-sky-500/20">
-                <div class="flex items-center gap-2 mb-4 text-sky-400">
+<div class="glass-card p-8 rounded-2xl border-sky-500/20 mt-12">
+  <div class="flex items-center gap-2 mb-6 text-sky-400">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     <span class="font-semibold uppercase tracking-widest text-xs">Example Prompt</span>
                 </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5">
                 <blockquote class="text-lg italic text-slate-200">
                     "Take the input file, apply medium distortion and a slight echo, then normalize the volume and convert it to a high quality mp3 audio file."
                 </blockquote>
-                
-                
-                <p class="text-slate-400 text-sm mb-6">
-                <blockquote class="text-lg italic text-slate-200">
-                    "Make the drumset sounds clearer."
-                </blockquote>
-                
             </div>
-        </section>
 
+    <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5">
+      <blockquote class="text-lg italic text-slate-200">
+        "Exract the first 10 seconds of the input file and apply a fade out effect."
+      </blockquote>
+    </div>
+
+    <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5">
+      <blockquote class="text-lg italic text-slate-200">
+        "Make the first 5 seconds of the audio sounds loader."
+      </blockquote>
+    </div>
+
+    <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5">
+      <blockquote class="text-lg italic text-slate-200">
+        "Shift the pitch of the input file 1 octave high and convert it to a WAV file."
+      </blockquote>
+    </div>
+
+    <!-- <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5 md:col-span-2">
+      <blockquote class="text-lg italic text-slate-200">
+        "Make the drumset sounds clearer."
+      </blockquote>
+    </div> -->
+  </div>
+</div>
+        </section>
         <!-- 2. System Architecture -->
         <section id="architecture">
             <h2 class="text-3xl font-bold mb-12 text-center">ReAct System Architecture</h2>
-            <div class="space-y-4 text-slate-300">
-                    <p>
-                        With <b>Pydantic-AI</b> framework, Mambo leverages the ReAct scheme to implement a multi-agentic system where the model can interact and evaluate the output quality and iterate on improvements to refine the results. 
-                    </p>
-                    <p>The agents can then intercommunicate and perform the workflow of thinking, reflecting, and acting to process audio files through various transformations with customized ffmpeg CLI and Pedalboard Library by Spotify via tool calls. This setup allows the agents to interact with the local environments and execute audio processing tasks efficiently.
-                    </p>
-                    <div style="height: 20px;"></div>
+
+                <!-- Workflow Image Section -->
+        <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <figure>
+                        <img src="https://lh3.googleusercontent.com/d/1TfwAJj7x-lLzZ4fA-uwr5DA57bgYLwRa" alt="Mambo agent workflow diagram"
+                        class="w-full h-auto rounded-xl border border-slate-800 bg-slate-950 cursor-zoom-in transition hover:opacity-95"
+                        style="max-width: 900px; max-height: 900px;"
+                        onclick="openImgZoom(this.src, this.alt)" />
+
+                <!-- Zoom Modal -->
+                <div id="imgZoomModal" class="fixed inset-0 z-[999] hidden items-start justify-center bg-black/80 p-4 overflow-y-auto" onclick="closeImgZoom()">
+                <button class="fixed top-4 right-4 text-white/80 hover:text-white text-3xl leading-none" aria-label="Close zoom" onclick="closeImgZoom(); event.stopPropagation();">&times;</button>
+                <img id="imgZoomTarget" src="" alt="" class="block mx-auto max-w-[95vw] h-auto rounded-xl border border-slate-700 bg-slate-950 shadow-2xl cursor-zoom-out my-10" />
                 </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
+                <script>
+                function openImgZoom(src, alt) {
+                    const modal = document.getElementById('imgZoomModal');
+                    const target = document.getElementById('imgZoomTarget');
+                    target.src = src;
+                    target.alt = alt || '';
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeImgZoom() {
+                    const modal = document.getElementById('imgZoomModal');
+                    if (!modal) return;
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeImgZoom();
+                });
+                </script>
+
+                    <figcaption class="space-y-4 text-slate-100 text-sm">
+                        <div style="height: 10px;"></div>
+                        <p>
+                            With <b>Pydantic-AI</b> framework, Mambo leverages the ReAct scheme to implement a multi-agentic system where the model can interact and evaluate the output quality and iterate on improvements to refine the results. 
+                        </p>
+                        <p>
+                            The agents can then intercommunicate and perform the workflow of thinking, reflecting, and acting to process audio files through various transformations with customized ffmpeg CLI and Pedalboard Library by Spotify via tool calls. This setup allows the agents to interact with the local environments and execute audio processing tasks efficiently.
+                        </p>
+                        </figcaption>
+                    </figure>
+            <div class="grid grid-cols-1 gap-6">
                 <!-- Instruction Agent -->
                 <div class="glass-card p-6 rounded-2xl">
                     <div class="w-12 h-12 bg-sky-500/20 text-sky-400 rounded-lg flex items-center justify-center mb-6 text-xl">
                         <i class="fa-solid fa-brain"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">Instruction Agent</h3>
-                    <p class="text-slate-400 text-sm">The brain of the system that plans and orchestrates the workflow, powered by GPT-5.1 chat model. Uses <code>pydantic dataclass</code> to produce structured outputs with specific <code>OutputFormat</code> that specifies audio processing parameters, including DSP chains and ffmpeg shell commands.</p>
+                    <p class="text-slate-300 text-sm">The brain of the system that plans and orchestrates the workflow, powered by GPT-5.1 chat model. Uses <code>pydantic dataclass</code> to produce structured outputs with specific <code>OutputFormat</code> that specifies audio processing parameters, including DSP chains and ffmpeg shell commands.</p>
                 </div>
 
                 <!-- Tool Integration -->
@@ -156,7 +219,7 @@
                         <i class="fa-solid fa-screwdriver-wrench"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">Deterministic Tools</h3>
-                    <p class="text-slate-400 text-sm">Direct integration with <code>Pedalboard by Spotify</code> for high-quality DSP and possible external plugin support and <code>ffmpeg</code> for robust audio file processing and transformations with runtime flexible toolcalls based on user specifications.</p>
+                    <p class="text-slate-300 text-sm">Direct integration with <code>Pedalboard by Spotify</code> for high-quality DSP and possible external plugin support and <code>ffmpeg</code> for robust audio file processing and transformations with runtime flexible toolcalls based on user specifications.</p>
                 </div>
 
                 <!-- Evaluation Loop -->
@@ -165,9 +228,16 @@
                         <i class="fa-solid fa-list-check"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">Self-Evaluation</h3>
-                    <p class="text-slate-400 text-sm">A separate agent based on GPT-5.1 response model that validates planned actions before execution, ensuring higher reliability and "reasoning before acting."</p>
+                    <p class="text-slate-300 text-sm">A separate agent based on GPT-5.1 response model that validates planned actions before execution, ensuring higher reliability and "reasoning before acting."</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+                <div style="height: 20px;"></div>
+            </div>
+
+
 
             <!-- Architecture Logic List -->
             <div class="mt-12 p-8 glass-card rounded-2xl border-slate-800">
@@ -203,17 +273,6 @@
             <div class="relative max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800 bg-black aspect-video flex items-center justify-center">
                 <!-- REPLACE 'YOUR_VIDEO_URL_OR_ID' WITH YOUR ACTUAL VIDEO LINK -->
                 <!-- If using a local file: <video src="demo.mp4" controls class="w-full h-full"></video> -->
-                <div class="text-center px-6">
-                    <!-- <div class="mb-4 text-6xl text-slate-700">
-                        <i class="fa-solid fa-circle-play"></i>
-                    </div> -->
-                    <!-- <p class="text-slate-500 text-sm italic">Video Demo Placeholder<br>(Link your screen recording here)</p> -->
-                    <!-- <iframe src="https://drive.google.com/file/d/1ssrV1qtt4AXuJhNg4ZsqTHHJPKkWplYz/preview" width="800" height="480" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen>></iframe> -->
-                </div>
-                
-                <!-- Example Youtube Embed Code:
-                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                -->
             </div>
         </section>
 
