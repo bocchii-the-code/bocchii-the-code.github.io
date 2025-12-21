@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mambo!</title>
+    <link rel="icon" type="image/x-icon" href="https://lh3.googleusercontent.com/d/1jjcDxeYLeGUJLkGo-b29cltvHJRoEG6e">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #040913;
+            color: #f8fafc;
+            padding-left: 50px;  /* Padding on the left side */
+            padding-right: 50px; /* Padding on the right side */
+            /* Optional: set margin to 0 for consistency */
+            margin: 0;
+        }
+            
+
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            color: #f472b6;
+        }
+
+        .hero-bg {
+            background-image:
+                url("https://lh3.googleusercontent.com/d/15Jn4pF4aW1iIJIAGSqGKSAYjvJQB_eL9"),
+                radial-gradient(circle at top right, rgba(56, 189, 248, 0.15), transparent),
+                radial-gradient(circle at bottom left, rgba(192, 132, 252, 0.15), transparent);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-card border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter flex items-center gap-2">
+                <i class="fa-solid fa-compact-disc text-sky-400 animate-spin-slow"></i>
+                Mambo
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-400">
+                <a href="#about" class="hover:text-sky-400 transition">About</a>
+                <a href="#architecture" class="hover:text-sky-400 transition">Architecture</a>
+                <a href="#demo" class="hover:text-sky-400 transition">Demo</a>
+                <a href="#docs" class="hover:text-sky-400 transition">Documentation</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-20 px-6 hero-bg">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+                The AI-Powered <br><span class="gradient-text">Audio CLI Editor</span>
+            </h1>
+            <div class="max-w-2xl mx-auto mb-10 glass-card rounded-2xl px-6 py-4">
+                <p class="text-xl text-slate-200">
+                An intelligent instruction-following agent for audio DSP and transformations using Spotify's Pedalboard and FFmpeg.
+            </p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#demo" class="px-8 py-3 bg-sky-500 hover:bg-sky-400 text-white rounded-full font-semibold transition shadow-lg shadow-sky-500/20">
+                    Watch Demo
+                </a>
+                <a href="https://github.com/bocchii-the-code/mambo" target="_blank" class="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-full font-semibold transition border border-slate-700">
+                    <i class="fa-brands fa-github mr-2"></i>View Source (Developing)
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6x2 mx-auto px-6 space-y-32 pb-32">
+
+        <!-- 1. Motivation & Problem Definition -->
+        <section id="about" class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <div style="height: 30px;"></div>
+                <h2 class="text-3xl font-bold mb-6">Motivation & Objectives</h2>
+                <div class="space-y-4 text-slate-300">
+                    <p>
+                        Professional audio editing or mixing often requires experts to navigate complex GUI environments in the Digital Audio Workstations (DAWs). For music or audio editing, the threshold is reasonably high and the learning curve is painful. For light users who just want to apply a quick effect or convert formats, a natural language driven audio edting engine would be more beneficial than traditional DAW.
+                    </p>
+                    <p>
+                        <strong>The Problem:</strong> Translating creative intent ("Make this sound like it's in a large hall and save it as an MP3") into technical operations (Pedalboard DSP + FFmpeg commands) is a bottleneck for non-technical users and a repetitive chore for experts.
+                    </p>
+                    <p>
+                        <strong>The Solution:</strong> Mambo bridges this gap by using a Large Language Model (LLM) Agents as an orchestration layer to tranlate and execute audio processing tasks. It interprets natural language instructions and executes precise, deterministic tools to achieve the desired audio outcome.
+                    </p>
+                </div>
+            </div>
+            <div class="glass-card p-8 rounded-2xl border-sky-500/20">
+                <div class="flex items-center gap-2 mb-4 text-sky-400">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span class="font-semibold uppercase tracking-widest text-xs">Example Prompt</span>
+                </div>
+                <blockquote class="text-lg italic text-slate-200">
+                    "Take the input file, apply medium distortion and a slight echo, then normalize the volume and convert it to a high quality mp3 audio file."
+                </blockquote>
+                
+                
+                <p class="text-slate-400 text-sm mb-6">
+                <blockquote class="text-lg italic text-slate-200">
+                    "Make the drumset sounds clearer."
+                </blockquote>
+                
+            </div>
+        </section>
+
+        <!-- 2. System Architecture -->
+        <section id="architecture">
+            <h2 class="text-3xl font-bold mb-12 text-center">ReAct System Architecture</h2>
+            <div class="space-y-4 text-slate-300">
+                    <p>
+                        With <b>Pydantic-AI</b> framework, Mambo leverages the ReAct scheme to implement a multi-agentic system where the model can interact and evaluate the output quality and iterate on improvements to refine the results. 
+                    </p>
+                    <p>The agents can then intercommunicate and perform the workflow of thinking, reflecting, and acting to process audio files through various transformations with customized ffmpeg CLI and Pedalboard Library by Spotify via tool calls. This setup allows the agents to interact with the local environments and execute audio processing tasks efficiently.
+                    </p>
+                    <div style="height: 20px;"></div>
+                </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Instruction Agent -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="w-12 h-12 bg-sky-500/20 text-sky-400 rounded-lg flex items-center justify-center mb-6 text-xl">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Instruction Agent</h3>
+                    <p class="text-slate-400 text-sm">The brain of the system that plans and orchestrates the workflow, powered by GPT-5.1 chat model. Uses <code>pydantic dataclass</code> to produce structured outputs with specific <code>OutputFormat</code> that specifies audio processing parameters, including DSP chains and ffmpeg shell commands.</p>
+                </div>
+
+                <!-- Tool Integration -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center mb-6 text-xl">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Deterministic Tools</h3>
+                    <p class="text-slate-400 text-sm">Direct integration with <code>Pedalboard by Spotify</code> for high-quality DSP and possible external plugin support and <code>ffmpeg</code> for robust audio file processing and transformations with runtime flexible toolcalls based on user specifications.</p>
+                </div>
+
+                <!-- Evaluation Loop -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center mb-6 text-xl">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Self-Evaluation</h3>
+                    <p class="text-slate-400 text-sm">A separate agent based on GPT-5.1 response model that validates planned actions before execution, ensuring higher reliability and "reasoning before acting."</p>
+                </div>
+            </div>
+
+            <!-- Architecture Logic List -->
+            <div class="mt-12 p-8 glass-card rounded-2xl border-slate-800">
+                <h4 class="font-bold mb-4 text-sky-400">Implementation Details</h4>
+                <ul class="space-y-4 text-slate-300 text-sm">
+                    <li class="flex gap-3">
+                        <span class="text-sky-500 font-bold">01.</span>
+                        <span><strong>Pipeline Orchestration:</strong> The <code>pipeline</code> manages runtime context, injecting available DSP effects into the LLM system prompt dynamically during runtime, allowing for flexible and modular agent behavior.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-sky-500 font-bold">02.</span>
+                        <span><strong>Safty Check:</strong> Uses hard-coded command line check to avoid malicious actions and implements <code>AST literal parsing</code> in to convert LLM strings into <code>Pedalboard</code> instances safely, avoiding rejecting unkown codes via <code>eval()</code>. </span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-sky-500 font-bold">03.</span>
+                        <span><strong>Mode Flexibility:</strong> Supports <strong>Q&A Mode</strong> for brainstorming or general Q&A sections and <strong>Editor Mode</strong> for actual file processing via CLI.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-sky-500 font-bold">04.</span>
+                        <span><strong>Vast Possibilities:</strong> <code>Pedalboards</code> supports external VST pluggins and instruments and allows more advanced editions to audio processing workflows (tentative).  
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. Demo Video -->
+        <section id="demo" class="space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">Mambo in Action</h2>
+                <p class="text-slate-400">Watch the agent process complex audio instructions in real-time.</p>
+            </div>
+            
+            <div class="relative max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800 bg-black aspect-video flex items-center justify-center">
+                <!-- REPLACE 'YOUR_VIDEO_URL_OR_ID' WITH YOUR ACTUAL VIDEO LINK -->
+                <!-- If using a local file: <video src="demo.mp4" controls class="w-full h-full"></video> -->
+                <div class="text-center px-6">
+                    <!-- <div class="mb-4 text-6xl text-slate-700">
+                        <i class="fa-solid fa-circle-play"></i>
+                    </div> -->
+                    <!-- <p class="text-slate-500 text-sm italic">Video Demo Placeholder<br>(Link your screen recording here)</p> -->
+                    <!-- <iframe src="https://drive.google.com/file/d/1ssrV1qtt4AXuJhNg4ZsqTHHJPKkWplYz/preview" width="800" height="480" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen>></iframe> -->
+                </div>
+                
+                <!-- Example Youtube Embed Code:
+                <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                -->
+            </div>
+        </section>
+
+        <!-- 4. Quick Start / Installation -->
+        <section id="docs" class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center">Get Started</h2>
+            <div class="space-y-4">
+                <div class="p-6 bg-slate-900 rounded-xl border border-slate-800">
+                    <p class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">Install Dependencies</p>
+                    with pip: 
+                    <pre class="text-emerald-400 overflow-x-auto"><code>pip install -r requirements.txt</code></pre>
+                    <div style="height: 5px;"></div>
+                    with uv:
+                    <pre class="text-emerald-400 overflow-x-auto"><code>uv sync</code></pre>
+                </div>
+                <div class="p-6 bg-slate-900 rounded-xl border border-slate-800">
+                    <p class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">Run Editor Mode</p>
+                    <pre class="text-sky-400 overflow-x-auto"><code>python pipeline.py --file "INPUT_FILE_NAME.mp3"</code></pre>
+                </div>
+                <div class="p-6 bg-slate-900 rounded-xl border border-slate-800">
+                    <p class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">Run Chat Mode</p>
+                    <pre class="text-sky-400 overflow-x-auto"><code>python pipeline.py</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-12 text-center text-slate-500 text-sm">
+        <p>&copy; 2024 MAMBO Project — Built for high-fidelity audio AI orchestration.</p>
+    </footer>
+
+    <!-- Custom Interaction Script -->
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll-based navbar styling
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-slate-900/90');
+            } else {
+                nav.classList.remove('bg-slate-900/90');
+            }
+        });
+    </script>
+</body>
+</html>
