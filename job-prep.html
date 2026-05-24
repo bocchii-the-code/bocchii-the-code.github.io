@@ -658,7 +658,7 @@ function render() {
     const total = countCatTotal(cat);
     const pct = total ? Math.round(done/total*100) : 0;
 
-    html += `<li class="tree-node root cat-${cat.cat}" data-cat="${cat.cat}">
+    html += `<li class="tree-node root cat-${cat.cat}" data-cat="${cat.cat}" data-search="${cat.name.toLowerCase()} ${cat.summary.toLowerCase()}">
       <div class="cat-row cat-${cat.cat}" onclick="toggleCat('${catKey}',event)">
         <div class="cat-icon">${cat.icon}</div>
         <div class="cat-info">
@@ -804,49 +804,94 @@ function updateStats() {
 
 function filter() {
   const query = document.getElementById('search').value.toLowerCase();
-  const allNodes = document.querySelectorAll('.tree-node,.sub-row');
-  allNodes.forEach(n => {
-    if (activeFilter !== 'all' && n.dataset.cat && n.dataset.cat !== activeFilter) {
-      n.classList.add('hidden');
+
+  document.querySelectorAll('.tree-node.root').forEach(root => {
+    // ── 1. Category filter ──
+    if (activeFilter !== 'all' && root.dataset.cat !== activeFilter) {
+      root.classList.add('hidden');
       return;
     }
-    if (!query) { n.classList.remove('hidden'); return; }
-    const s = n.dataset.search || '';
-    if (s.includes(query)) {
-      n.classList.remove('hidden');
-      // Expand parent category and topic if match found
-      expandParents(n);
-    } else {
-      n.classList.add('hidden');
+
+    // ── 2. No search query → show everything in this category ──
+    if (!query) {
+      root.classList.remove('hidden');
+      root.querySelectorAll('.tree-node,.sub-row').forEach(n => n.classList.remove('hidden'));
+      return;
     }
+
+    // ── 3. Check each topic for matches ──
+    let rootMatches = false;
+    const topicNodes = root.querySelectorAll(':scope > .children > .tree-node');
+
+    topicNodes.forEach(topic => {
+      const topicSearch = (topic.dataset.search || '').toLowerCase();
+      const topicMatch = topicSearch.includes(query);
+
+      let anySubMatch = false;
+      const subRows = topic.querySelectorAll('.sub-row');
+      subRows.forEach(sr => {
+        const subSearch = (sr.dataset.search || '').toLowerCase();
+        if (subSearch.includes(query)) {
+          sr.classList.remove('hidden');
+          anySubMatch = true;
+        } else {
+          sr.classList.add('hidden');
+        }
+      });
+
+      if (topicMatch || anySubMatch) {
+        topic.classList.remove('hidden');
+        // If topic name/summary matches, show ALL its sub-rows
+        if (topicMatch) subRows.forEach(sr => sr.classList.remove('hidden'));
+        rootMatches = true;
+        // Auto-expand parent category + topic
+        expandParentsForTopic(topic);
+      } else {
+        topic.classList.add('hidden');
+      }
+    });
+
+    root.classList.toggle('hidden', !rootMatches);
   });
 }
 
-function expandParents(el) {
-  // If it's a sub-row, expand parent topic and category
-  const subDiv = el.closest('.subtopics');
+// Expand the category and topic ancestors of a matched topic node
+function expandParentsForTopic(topic) {
+  const catUl = topic.closest('.children[id^="children-"]');
+  if (catUl) {
+    const catId = catUl.id.replace('children-', '');
+    if (expandState[catId] === false) {
+      expandState[catId] = true;
+      saveState();
+      catUl.classList.remove('collapsed');
+      catUl.classList.add('expanded');
+      const catRow = catUl.previousElementSibling;
+      if (catRow) {
+        const a = catRow.querySelector('.cat-arrow');
+        if (a) a.classList.add('open');
+      }
+    }
+  }
+  const subDiv = topic.querySelector('.subtopics');
   if (subDiv) {
     const tKey = subDiv.id.replace('subs-', '');
     if (expandState[tKey] === false) {
       expandState[tKey] = true;
       saveState();
-      subDiv.classList.remove('collapsed'); subDiv.classList.add('expanded');
+      subDiv.classList.remove('collapsed');
+      subDiv.classList.add('expanded');
       const topicRow = subDiv.previousElementSibling;
-      if (topicRow) { const a = topicRow.querySelector('.topic-arrow'); if (a) a.classList.add('open'); }
-    }
-    // Expand parent category too
-    const childrenUl = subDiv.closest('.children');
-    if (childrenUl) {
-      const catId = childrenUl.id.replace('children-', '');
-      if (expandState[catId] === false) {
-        expandState[catId] = true;
-        saveState();
-        childrenUl.classList.remove('collapsed'); childrenUl.classList.add('expanded');
-        const catRow = childrenUl.previousElementSibling;
-        if (catRow) { const a = catRow.querySelector('.cat-arrow'); if (a) a.classList.add('open'); }
+      if (topicRow) {
+        const a = topicRow.querySelector('.topic-arrow');
+        if (a) a.classList.add('open');
       }
     }
   }
+}
+
+// Also expand parents when a matched sub-row is visible (for the auto-expand path)
+function expandParents(el) {
+  expandParentsForTopic(el.closest('.tree-node'));
 }
 
 function setFilter(cat, el) {
