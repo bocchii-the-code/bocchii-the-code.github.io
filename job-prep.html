@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding Interview Preparation Roadmap</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --ds: #5dade2;
+  --algo: #58d68d;
+  --sys: #bb8fce;
+  --behav: #f0b27a;
+  --cs: #48c9b0;
+  --done: #3fb950;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.header .subtitle {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-bottom: 12px;
+}
+.header .stats {
+  display: flex;
+  gap: 20px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.header .stats span { display:flex; align-items:center; gap:4px; }
+.header .stats .val { color: var(--text); font-weight:600; }
+
+/* Search */
+.search-bar {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.search-bar input {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color .2s;
+}
+.search-bar input:focus { border-color: var(--accent); }
+.search-bar input::placeholder { color: var(--muted); }
+.filter-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.filter-tag {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.filter-tag:hover { border-color: var(--accent); color: var(--text); }
+.filter-tag.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.filter-tag.tag-ds.active { background: var(--ds); border-color: var(--ds); color:#000; }
+.filter-tag.tag-algo.active { background: var(--algo); border-color: var(--algo); color:#000; }
+.filter-tag.tag-sys.active { background: var(--sys); border-color: var(--sys); color:#000; }
+.filter-tag.tag-behav.active { background: var(--behav); border-color: var(--behav); color:#000; }
+.filter-tag.tag-cs.active { background: var(--cs); border-color: var(--cs); color:#000; }
+.btn-reset {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all .2s;
+}
+.btn-reset:hover { border-color: #f85149; color: #f85149; }
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 16px;
+  padding: 16px 32px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.legend-item { display:flex; align-items:center; gap:6px; }
+.legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+/* Main */
+.main { padding: 12px 32px 40px; }
+
+/* Tree */
+.tree { list-style:none; }
+.tree ul { list-style:none; padding-left:0; }
+
+.tree-node { margin: 4px 0; }
+.tree-node.root { margin-bottom: 0; }
+
+/* Category row */
+.cat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .2s;
+  margin: 6px 0;
+  border: 1px solid transparent;
+  user-select: none;
+}
+.cat-row:hover { background: var(--surface); border-color: var(--border); }
+.cat-row.cat-ds:hover { border-color: var(--ds); }
+.cat-row.cat-algo:hover { border-color: var(--algo); }
+.cat-row.cat-sys:hover { border-color: var(--sys); }
+.cat-row.cat-behav:hover { border-color: var(--behav); }
+.cat-row.cat-cs:hover { border-color: var(--cs); }
+
+.cat-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.cat-ds .cat-icon { background: rgba(93,173,226,.15); color: var(--ds); }
+.cat-algo .cat-icon { background: rgba(88,214,141,.15); color: var(--algo); }
+.cat-sys .cat-icon { background: rgba(187,143,206,.15); color: var(--sys); }
+.cat-behav .cat-icon { background: rgba(240,178,122,.15); color: var(--behav); }
+.cat-cs .cat-icon { background: rgba(72,201,176,.15); color: var(--cs); }
+
+.cat-info { flex:1; min-width:0; }
+.cat-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+.cat-summary { font-size: 0.78rem; color: var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cat-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.cat-arrow {
+  font-size: 0.75rem;
+  color: var(--muted);
+  transition: transform .3s;
+  flex-shrink: 0;
+  width: 20px; text-align: center;
+}
+.cat-arrow.open { transform: rotate(90deg); }
+
+.progress-bar-wrap { width:50px; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.progress-bar-fill { height:100%; border-radius:2px; transition:width .4s; }
+.progress-bar-fill.ds { background:var(--ds); }
+.progress-bar-fill.algo { background:var(--algo); }
+.progress-bar-fill.sys { background:var(--sys); }
+.progress-bar-fill.behav { background:var(--behav); }
+.progress-bar-fill.cs { background:var(--cs); }
+
+/* Children */
+.children { overflow:hidden; transition: max-height .35s ease; }
+.children.collapsed { max-height:0; }
+.children.expanded { max-height: 8000px; }
+
+.topic-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 16px 10px 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s;
+  margin: 2px 0;
+  border: 1px solid transparent;
+}
+.topic-row:hover { background: var(--surface); border-color: var(--border); }
+
+.topic-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.topic-icon.ds { background: rgba(93,173,226,.12); color: var(--ds); }
+.topic-icon.algo { background: rgba(88,214,141,.12); color: var(--algo); }
+.topic-icon.sys { background: rgba(187,143,206,.12); color: var(--sys); }
+.topic-icon.behav { background: rgba(240,178,122,.12); color: var(--behav); }
+.topic-icon.cs { background: rgba(72,201,176,.12); color: var(--cs); }
+
+.topic-info { flex:1; min-width:0; }
+.topic-name { font-weight: 500; font-size: 0.9rem; }
+.topic-summary { font-size: 0.75rem; color: var(--muted); margin-top:2px; line-height:1.4; }
+.topic-meta { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.topic-arrow { font-size:0.7rem; color:var(--muted); transition:transform .3s; width:16px; text-align:center; }
+.topic-arrow.open { transform: rotate(90deg); }
+
+.checkbox {
+  width:18px; height:18px;
+  border-radius:4px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  color: transparent;
+}
+.checkbox:hover { border-color: var(--accent); }
+.checkbox.checked { background: var(--done); border-color: var(--done); color: #fff; }
+
+/* Sub-topic detail */
+.subtopics { padding-left: 54px; }
+.sub-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background .15s;
+  font-size: 0.82rem;
+  margin: 2px 0;
+}
+.sub-row:hover { background: var(--surface); }
+.sub-check { flex-shrink:0; }
+.sub-name { flex:1; color: var(--text); }
+.sub-links { display:flex; gap:8px; flex-shrink:0; }
+.sub-link {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.sub-link.yt {
+  background: rgba(255,0,0,.12);
+  color: #ff6b6b;
+  border: 1px solid rgba(255,0,0,.18);
+}
+.sub-link.yt:hover { background: rgba(255,0,0,.2); }
+.sub-link.lc {
+  background: rgba(255,161,22,.12);
+  color: #ffa116;
+  border: 1px solid rgba(255,161,22,.18);
+}
+.sub-link.lc:hover { background: rgba(255,161,22,.2); }
+
+/* Hidden */
+.hidden { display: none !important; }
+.ghost { opacity: 0.25; pointer-events: none; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+@media (max-width: 640px) {
+  .header { padding: 14px 16px; }
+  .main { padding: 8px 16px 40px; }
+  .legend { padding: 10px 16px; }
+  .cat-meta { display: none; }
+  .sub-links { flex-direction: column; gap: 4px; }
+  .topic-row { padding-left: 24px; }
+  .subtopics { padding-left: 36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎯 Coding Interview Preparation Roadmap</h1>
+  <div class="subtitle">Interactive skill tree — track progress, watch tutorials, practice LeetCode</div>
+  <div class="stats">
+    <span>Total topics: <b class="val" id="stat-total">0</b></span>
+    <span>Completed: <b class="val" id="stat-done">0</b></span>
+    <span>Progress: <b class="val" id="stat-pct">0%</b></span>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="🔍 Search topics (e.g., 'graph', 'DP', 'SQL'...)" oninput="filter()">
+    <div class="filter-tags" id="filter-tags">
+      <span class="filter-tag tag-all active" data-cat="all" onclick="setFilter('all',this)">All</span>
+      <span class="filter-tag tag-ds" data-cat="ds" onclick="setFilter('ds',this)">📊 DSA</span>
+      <span class="filter-tag tag-algo" data-cat="algo" onclick="setFilter('algo',this)">⚡ Algorithms</span>
+      <span class="filter-tag tag-sys" data-cat="sys" onclick="setFilter('sys',this)">🏗️ System Design</span>
+      <span class="filter-tag tag-behav" data-cat="behav" onclick="setFilter('behav',this)">🗣️ Behavioral</span>
+      <span class="filter-tag tag-cs" data-cat="cs" onclick="setFilter('cs',this)">📚 CS Fundamentals</span>
+    </div>
+    <button class="btn-reset" onclick="resetAll()">Reset Progress</button>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="legend-item"><span class="legend-dot" style="background:var(--ds)"></span> Data Structures</span>
+  <span class="legend-item"><span class="legend-dot" style="background:var(--algo)"></span> Algorithms</span>
+  <span class="legend-item"><span class="legend-dot" style="background:var(--sys)"></span> System Design</span>
+  <span class="legend-item"><span class="legend-dot" style="background:var(--behav)"></span> Behavioral</span>
+  <span class="legend-item"><span class="legend-dot" style="background:var(--cs)"></span> CS Fundamentals</span>
+  <span class="legend-item">✅ Checkbox = Mark as done (saved locally)</span>
+</div>
+
+<div class="main">
+  <ul class="tree" id="tree"></ul>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const ROADMAP = [
+  {
+    id: "ds", name: "Data Structures", cat: "ds", icon: "📊",
+    summary: "Building blocks that organize and store data efficiently. Master these to pass any coding interview.",
+    topics: [
+      {
+        id: "ds-arrays", name: "Arrays & Strings", cat: "ds", icon: "📋",
+        summary: "Contiguous memory, indexing, slicing, two-pointer technique.",
+        subs: [
+          { name:"Array basics & operations", yt:"https://www.youtube.com/results?search_query=arrays+data+structure+tutorial", lc:"https://leetcode.com/tag/array/" },
+          { name:"Two-pointer technique", yt:"https://www.youtube.com/results?search_query=two+pointer+technique+leetcode", lc:"https://leetcode.com/tag/two-pointers/" },
+          { name:"Sliding window", yt:"https://www.youtube.com/results?search_query=sliding+window+algorithm+tutorial", lc:"https://leetcode.com/tag/sliding-window/" },
+          { name:"Prefix sum & difference arrays", yt:"https://www.youtube.com/results?search_query=prefix+sum+array+technique", lc:"https://leetcode.com/tag/prefix-sum/" },
+          { name:"String manipulation & KMP", yt:"https://www.youtube.com/results?search_query=KMP+string+matching+algorithm", lc:"https://leetcode.com/tag/string/" }
+        ]
+      },
+      {
+        id: "ds-ll", name: "Linked Lists", cat: "ds", icon: "🔗",
+        summary: "Singly/doubly linked lists, fast-slow pointers, reversal, cycle detection.",
+        subs: [
+          { name:"Singly & doubly linked lists", yt:"https://www.youtube.com/results?search_query=linked+list+data+structure+tutorial", lc:"https://leetcode.com/tag/linked-list/" },
+          { name:"Fast & slow pointers (Floyd)", yt:"https://www.youtube.com/results?search_query=floyd+cycle+detection+tortoise+hare", lc:"https://leetcode.com/problems/linked-list-cycle/" },
+          { name:"Reverse linked list (iterative/recursive)", yt:"https://www.youtube.com/results?search_query=reverse+linked+list+leetcode", lc:"https://leetcode.com/problems/reverse-linked-list/" },
+          { name:"Merge & reorder lists", yt:"https://www.youtube.com/results?search_query=merge+sorted+linked+lists", lc:"https://leetcode.com/problems/merge-two-sorted-lists/" }
+        ]
+      },
+      {
+        id: "ds-sq", name: "Stacks & Queues", cat: "ds", icon: "📚",
+        summary: "LIFO/FIFO, monotonic stacks, deque, BFS queue patterns.",
+        subs: [
+          { name:"Stack basics & monotonic stack", yt:"https://www.youtube.com/results?search_query=monotonic+stack+leetcode", lc:"https://leetcode.com/tag/stack/" },
+          { name:"Queue, deque & BFS patterns", yt:"https://www.youtube.com/results?search_query=BFS+queue+algorithm+tutorial", lc:"https://leetcode.com/tag/queue/" },
+          { name:"Expression evaluation & parentheses", yt:"https://www.youtube.com/results?search_query=valid+parentheses+monotonic+stack", lc:"https://leetcode.com/problems/valid-parentheses/" }
+        ]
+      },
+      {
+        id: "ds-hash", name: "Hash Tables & Sets", cat: "ds", icon: "🔑",
+        summary: "O(1) lookup, collision handling, hash map patterns, counting frequency.",
+        subs: [
+          { name:"Hash map internals & collisions", yt:"https://www.youtube.com/results?search_query=hash+table+data+structure+explained", lc:"https://leetcode.com/tag/hash-table/" },
+          { name:"Frequency counting & anagrams", yt:"https://www.youtube.com/results?search_query=anagram+hash+map+leetcode", lc:"https://leetcode.com/problems/group-anagrams/" },
+          { name:"Two-sum & complement patterns", yt:"https://www.youtube.com/results?search_query=two+sum+hash+map", lc:"https://leetcode.com/problems/two-sum/" }
+        ]
+      },
+      {
+        id: "ds-tree", name: "Trees (Binary, BST, Trie)", cat: "ds", icon: "🌳",
+        summary: "Tree traversals, BST operations, trie for strings, segment trees intro.",
+        subs: [
+          { name:"Binary tree traversals (pre/in/post/level)", yt:"https://www.youtube.com/results?search_query=tree+traversal+DFS+BFS+binary+tree", lc:"https://leetcode.com/tag/tree/" },
+          { name:"Binary Search Tree (BST) operations", yt:"https://www.youtube.com/results?search_query=binary+search+tree+tutorial", lc:"https://leetcode.com/problems/validate-binary-search-tree/" },
+          { name:"Lowest Common Ancestor (LCA)", yt:"https://www.youtube.com/results?search_query=lowest+common+ancestor+binary+tree", lc:"https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" },
+          { name:"Trie (Prefix Tree)", yt:"https://www.youtube.com/results?search_query=trie+prefix+tree+implementation", lc:"https://leetcode.com/tag/trie/" },
+          { name:"Segment Tree & Fenwick Tree intro", yt:"https://www.youtube.com/results?search_query=segment+tree+fenwick+tree+tutorial", lc:"https://leetcode.com/tag/segment-tree/" }
+        ]
+      },
+      {
+        id: "ds-heap", name: "Heaps & Priority Queues", cat: "ds", icon: "⛰️",
+        summary: "Min/max heap, heapify, top-K problems, median maintenance.",
+        subs: [
+          { name:"Heap internals & heapify (O(n))", yt:"https://www.youtube.com/results?search_query=heap+data+structure+heapify", lc:"https://leetcode.com/tag/heap-priority-queue/" },
+          { name:"Top-K & Kth element patterns", yt:"https://www.youtube.com/results?search_query=top+k+elements+heap+leetcode", lc:"https://leetcode.com/problems/kth-largest-element-in-an-array/" },
+          { name:"Merge K sorted lists/arrays", yt:"https://www.youtube.com/results?search_query=merge+k+sorted+lists+heap", lc:"https://leetcode.com/problems/merge-k-sorted-lists/" }
+        ]
+      },
+      {
+        id: "ds-graph", name: "Graphs", cat: "ds", icon: "🕸️",
+        summary: "Adjacency list/matrix, BFS/DFS, topological sort, union-find, shortest path.",
+        subs: [
+          { name:"Graph representations & BFS/DFS", yt:"https://www.youtube.com/results?search_query=graph+BFS+DFS+algorithm", lc:"https://leetcode.com/tag/graph/" },
+          { name:"Topological Sort (Kahn's & DFS)", yt:"https://www.youtube.com/results?search_query=topological+sort+kahn+algorithm", lc:"https://leetcode.com/problems/course-schedule-ii/" },
+          { name:"Union-Find (Disjoint Set)", yt:"https://www.youtube.com/results?search_query=union+find+disjoint+set+tutorial", lc:"https://leetcode.com/tag/union-find/" },
+          { name:"Dijkstra & shortest paths", yt:"https://www.youtube.com/results?search_query=dijkstra+algorithm+shortest+path", lc:"https://leetcode.com/problems/network-delay-time/" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "algo", name: "Algorithms", cat: "algo", icon: "⚡",
+    summary: "Step-by-step procedures for solving problems. The core of coding interview problem-solving.",
+    topics: [
+      {
+        id: "algo-sort", name: "Sorting & Searching", cat: "algo", icon: "🔍",
+        summary: "Quicksort, mergesort, binary search variants, heap sort.",
+        subs: [
+          { name:"Binary search & variants", yt:"https://www.youtube.com/results?search_query=binary+search+leetcode+template", lc:"https://leetcode.com/tag/binary-search/" },
+          { name:"Quicksort & quicksort select", yt:"https://www.youtube.com/results?search_query=quicksort+algorithm+quickselect", lc:"https://leetcode.com/problems/sort-an-array/" },
+          { name:"Mergesort & inversion counting", yt:"https://www.youtube.com/results?search_query=merge+sort+algorithm+tutorial", lc:"https://leetcode.com/problems/count-of-smaller-numbers-after-self/" },
+          { name:"Search in rotated sorted array", yt:"https://www.youtube.com/results?search_query=search+in+rotated+sorted+array", lc:"https://leetcode.com/problems/search-in-rotated-sorted-array/" }
+        ]
+      },
+      {
+        id: "algo-back", name: "Recursion & Backtracking", cat: "algo", icon: "🔄",
+        summary: "Recursion tree, subsets/permutations/combinations, N-Queens, Sudoku.",
+        subs: [
+          { name:"Recursion fundamentals & call stack", yt:"https://www.youtube.com/results?search_query=recursion+backtracking+tutorial", lc:"https://leetcode.com/tag/backtracking/" },
+          { name:"Subsets, Permutations, Combinations", yt:"https://www.youtube.com/results?search_query=subsets+permutations+backtracking", lc:"https://leetcode.com/problems/subsets/" },
+          { name:"N-Queens & constraint satisfaction", yt:"https://www.youtube.com/results?search_query=n+queens+problem+backtracking", lc:"https://leetcode.com/problems/n-queens/" },
+          { name:"Word search & grid backtracking", yt:"https://www.youtube.com/results?search_query=word+search+backtracking+leetcode", lc:"https://leetcode.com/problems/word-search/" }
+        ]
+      },
+      {
+        id: "algo-dp", name: "Dynamic Programming", cat: "algo", icon: "🧩",
+        summary: "Memoization, tabulation, 0/1 knapsack, LCS, LIS, edit distance, matrix DP.",
+        subs: [
+          { name:"DP fundamentals & memoization", yt:"https://www.youtube.com/results?search_query=dynamic+programming+tutorial+beginner", lc:"https://leetcode.com/tag/dynamic-programming/" },
+          { name:"0/1 Knapsack & unbounded patterns", yt:"https://www.youtube.com/results?search_query=knapsack+problem+dynamic+programming", lc:"https://leetcode.com/problems/partition-equal-subset-sum/" },
+          { name:"LCS & Edit Distance", yt:"https://www.youtube.com/results?search_query=longest+common+subsequence+edit+distance+DP", lc:"https://leetcode.com/problems/longest-common-subsequence/" },
+          { name:"LIS & patience sorting", yt:"https://www.youtube.com/results?search_query=longest+increasing+subsequence+DP", lc:"https://leetcode.com/problems/longest-increasing-subsequence/" },
+          { name:"Matrix & grid DP (2D)", yt:"https://www.youtube.com/results?search_query=grid+dynamic+programming+unique+paths", lc:"https://leetcode.com/problems/unique-paths/" }
+        ]
+      },
+      {
+        id: "algo-greedy", name: "Greedy Algorithms", cat: "algo", icon: "💰",
+        summary: "Local optimal choices, interval scheduling, Huffman coding, coin change.",
+        subs: [
+          { name:"Greedy fundamentals & proofs", yt:"https://www.youtube.com/results?search_query=greedy+algorithm+tutorial", lc:"https://leetcode.com/tag/greedy/" },
+          { name:"Interval scheduling & merging", yt:"https://www.youtube.com/results?search_query=merge+intervals+leetcode+greedy", lc:"https://leetcode.com/problems/merge-intervals/" },
+          { name:"Jump game & gas station", yt:"https://www.youtube.com/results?search_query=jump+game+greedy+leetcode", lc:"https://leetcode.com/problems/jump-game-ii/" }
+        ]
+      },
+      {
+        id: "algo-2p", name: "Two Pointers & Sliding Window", cat: "algo", icon: "👈👉",
+        summary: "Fast/slow, left/right, fixed/variable sliding window, three pointers.",
+        subs: [
+          { name:"Fixed & variable sliding window", yt:"https://www.youtube.com/results?search_query=sliding+window+algorithm+technique", lc:"https://leetcode.com/problems/minimum-window-substring/" },
+          { name:"Two pointers for sorted arrays", yt:"https://www.youtube.com/results?search_query=two+pointers+sorted+array+three+sum", lc:"https://leetcode.com/problems/3sum/" },
+          { name:"Fast & slow pointers in arrays", yt:"https://www.youtube.com/results?search_query=cycle+detection+array+duplicate+number", lc:"https://leetcode.com/problems/find-the-duplicate-number/" }
+        ]
+      },
+      {
+        id: "algo-bit", name: "Bit Manipulation", cat: "algo", icon: "🔢",
+        summary: "AND/OR/XOR tricks, bitmasks, Brian Kernighan, single number patterns.",
+        subs: [
+          { name:"Bit operations & common tricks", yt:"https://www.youtube.com/results?search_query=bit+manipulation+tricks+programming", lc:"https://leetcode.com/tag/bit-manipulation/" },
+          { name:"XOR patterns & single number", yt:"https://www.youtube.com/results?search_query=single+number+XOR+bit+manipulation", lc:"https://leetcode.com/problems/single-number/" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "sys", name: "System Design", cat: "sys", icon: "🏗️",
+    summary: "Design scalable, reliable distributed systems. Framework for senior/staff interviews.",
+    topics: [
+      {
+        id: "sys-scale", name: "Scalability Fundamentals", cat: "sys", icon: "⚖️",
+        summary: "Vertical vs horizontal scaling, load balancers, CAP theorem, consistent hashing.",
+        subs: [
+          { name:"Scaling strategies & load balancers", yt:"https://www.youtube.com/results?search_query=load+balancer+horizontal+scaling+system+design", lc:"https://leetcode.com/tag/system-design/" },
+          { name:"CAP theorem & consistency models", yt:"https://www.youtube.com/results?search_query=CAP+theorem+distributed+systems", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Consistent hashing", yt:"https://www.youtube.com/results?search_query=consistent+hashing+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Rate limiting & API design", yt:"https://www.youtube.com/results?search_query=rate+limiter+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" }
+        ]
+      },
+      {
+        id: "sys-db", name: "Database Design", cat: "sys", icon: "🗄️",
+        summary: "SQL vs NoSQL, indexing, sharding, replication, denormalization.",
+        subs: [
+          { name:"SQL vs NoSQL tradeoffs", yt:"https://www.youtube.com/results?search_query=SQL+vs+NoSQL+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Indexing & query optimization", yt:"https://www.youtube.com/results?search_query=database+indexing+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Sharding & replication strategies", yt:"https://www.youtube.com/results?search_query=database+sharding+replication+tutorial", lc:"https://leetcode.com/discuss/interview-question/system-design/" }
+        ]
+      },
+      {
+        id: "sys-cache", name: "Caching Strategies", cat: "sys", icon: "⚡",
+        summary: "Cache invalidation, LRU/LFU, Redis, CDN, write-through/write-back.",
+        subs: [
+          { name:"LRU & LFU cache implementation", yt:"https://www.youtube.com/results?search_query=LRU+cache+implementation+leetcode", lc:"https://leetcode.com/problems/lru-cache/" },
+          { name:"Cache strategies (write-through, etc.)", yt:"https://www.youtube.com/results?search_query=cache+invalidation+strategies+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"CDN & edge caching", yt:"https://www.youtube.com/results?search_query=CDN+edge+caching+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" }
+        ]
+      },
+      {
+        id: "sys-mq", name: "Message Queues & Async", cat: "sys", icon: "📨",
+        summary: "Kafka/RabbitMQ, pub-sub, event-driven architecture, idempotency.",
+        subs: [
+          { name:"Message queue fundamentals", yt:"https://www.youtube.com/results?search_query=message+queue+Kafka+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Pub-sub & event-driven architecture", yt:"https://www.youtube.com/results?search_query=pub+sub+event+driven+architecture", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Idempotency & exactly-once semantics", yt:"https://www.youtube.com/results?search_query=idempotency+distributed+systems+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" }
+        ]
+      },
+      {
+        id: "sys-real", name: "Real World System Design", cat: "sys", icon: "🌍",
+        summary: "URL shortener, chat app, news feed, Uber, YouTube, WhatsApp design walkthrough.",
+        subs: [
+          { name:"Design a URL shortener (TinyURL)", yt:"https://www.youtube.com/results?search_query=design+url+shortener+system+design+interview", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Design a chat system (WhatsApp/Messenger)", yt:"https://www.youtube.com/results?search_query=design+chat+system+WhatsApp+interview", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Design a news feed (Twitter/Facebook)", yt:"https://www.youtube.com/results?search_query=design+news+feed+system+design+twitter", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Design a ride-sharing service (Uber)", yt:"https://www.youtube.com/results?search_query=design+uber+ride+sharing+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" },
+          { name:"Design a video streaming service (YouTube)", yt:"https://www.youtube.com/results?search_query=design+youtube+netflix+system+design", lc:"https://leetcode.com/discuss/interview-question/system-design/" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "behav", name: "Behavioral Interview", cat: "behav", icon: "🗣️",
+    summary: "STAR method, leadership principles, situational questions — the non-technical side.",
+    topics: [
+      {
+        id: "behav-star", name: "STAR Method Mastery", cat: "behav", icon: "⭐",
+        summary: "Situation, Task, Action, Result framework to structure all behavioral answers.",
+        subs: [
+          { name:"STAR method deep dive", yt:"https://www.youtube.com/results?search_query=STAR+method+interview+examples", lc:"" },
+          { name:"Story bank preparation", yt:"https://www.youtube.com/results?search_query=behavioral+interview+story+bank", lc:"" }
+        ]
+      },
+      {
+        id: "behav-lead", name: "Leadership & Teamwork", cat: "behav", icon: "🤝",
+        summary: "Conflict resolution, mentoring, cross-team collaboration, ownership examples.",
+        subs: [
+          { name:"Conflict resolution stories", yt:"https://www.youtube.com/results?search_query=conflict+resolution+interview+answer", lc:"" },
+          { name:"Leadership & initiative examples", yt:"https://www.youtube.com/results?search_query=leadership+behavioral+interview+examples", lc:"" },
+          { name:"Failure & learning stories", yt:"https://www.youtube.com/results?search_query=weakness+failure+behavioral+interview", lc:"" }
+        ]
+      },
+      {
+        id: "behav-questions", name: "Common Questions Bank", cat: "behav", icon: "❓",
+        summary: "Amazon Leadership Principles, Google Googleyness, Meta/Facebook values.",
+        subs: [
+          { name:"Amazon LP questions & answers", yt:"https://www.youtube.com/results?search_query=amazon+leadership+principles+interview+questions", lc:"" },
+          { name:"Google behavioral interview prep", yt:"https://www.youtube.com/results?search_query=Google+behavioral+interview+googleyness", lc:"" },
+          { name:"Meta behavioral interview guide", yt:"https://www.youtube.com/results?search_query=Meta+Facebook+behavioral+interview+questions", lc:"" },
+          { name:"General top 50 behavioral questions", yt:"https://www.youtube.com/results?search_query=top+behavioral+interview+questions+and+answers", lc:"" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "cs", name: "Computer Science Fundamentals", cat: "cs", icon: "📚",
+    summary: "Theoretical underpinnings every engineer should know. OS, networking, databases, OOP.",
+    topics: [
+      {
+        id: "cs-bigo", name: "Big-O Complexity Analysis", cat: "cs", icon: "📈",
+        summary: "Time & space complexity, amortized analysis, master theorem, NP-completeness intro.",
+        subs: [
+          { name:"Big-O notation & common complexities", yt:"https://www.youtube.com/results?search_query=big+O+notation+complexity+analysis", lc:"https://leetcode.com/tag/array/" },
+          { name:"Amortized analysis (dynamic arrays)", yt:"https://www.youtube.com/results?search_query=amortized+analysis+daily+stacks", lc:"https://leetcode.com/problems/implement-queue-using-stacks/" },
+          { name:"Master theorem for divide & conquer", yt:"https://www.youtube.com/results?search_query=master+theorem+algorithm+analysis", lc:"" }
+        ]
+      },
+      {
+        id: "cs-os", name: "Operating Systems", cat: "cs", icon: "💻",
+        summary: "Processes/threads, concurrency, memory management, file systems, locks & semaphores.",
+        subs: [
+          { name:"Processes vs threads & concurrency", yt:"https://www.youtube.com/results?search_query=process+vs+thread+concurrency+operating+system", lc:"" },
+          { name:"Memory management & virtual memory", yt:"https://www.youtube.com/results?search_query=virtual+memory+paging+operating+system", lc:"" },
+          { name:"Locks, mutexes, semaphores & deadlocks", yt:"https://www.youtube.com/results?search_query=mutex+semaphore+deadlock+operating+system", lc:"" }
+        ]
+      },
+      {
+        id: "cs-net", name: "Networking", cat: "cs", icon: "🌐",
+        summary: "TCP/IP, HTTP/HTTPS, DNS, WebSockets, load balancers, CDN basics.",
+        subs: [
+          { name:"TCP vs UDP & 3-way handshake", yt:"https://www.youtube.com/results?search_query=TCP+vs+UDP+handshake+explained", lc:"" },
+          { name:"HTTP, HTTPS, TLS & RESTful APIs", yt:"https://www.youtube.com/results?search_query=HTTP+HTTPS+REST+API+tutorial", lc:"" },
+          { name:"DNS, CDN & proxy servers", yt:"https://www.youtube.com/results?search_query=DNS+CDN+proxy+server+explained", lc:"" }
+        ]
+      },
+      {
+        id: "cs-db", name: "Databases & SQL", cat: "cs", icon: "🗃️",
+        summary: "SQL joins, transactions (ACID), normalization, indexing, NoSQL tradeoffs.",
+        subs: [
+          { name:"SQL joins & aggregations mastery", yt:"https://www.youtube.com/results?search_query=SQL+joins+inner+outer+tutorial", lc:"https://leetcode.com/problemset/database/" },
+          { name:"Transactions, ACID & isolation levels", yt:"https://www.youtube.com/results?search_query=ACID+transactions+database+isolation", lc:"https://leetcode.com/problemset/database/" },
+          { name:"Normalization & schema design", yt:"https://www.youtube.com/results?search_query=database+normalization+1NF+2NF+3NF", lc:"https://leetcode.com/problemset/database/" }
+        ]
+      },
+      {
+        id: "cs-oop", name: "OOP & Design Patterns", cat: "cs", icon: "🏛️",
+        summary: "Encapsulation, inheritance, polymorphism, SOLID, common GoF patterns.",
+        subs: [
+          { name:"OOP pillars & SOLID principles", yt:"https://www.youtube.com/results?search_query=Solid+principles+object+oriented+programming", lc:"" },
+          { name:"Singleton, Factory, Observer, Strategy", yt:"https://www.youtube.com/results?search_query=design+patterns+factory+observer+strategy", lc:"" },
+          { name:"Dependency injection & composition", yt:"https://www.youtube.com/results?search_query=dependency+injection+design+pattern", lc:"" }
+        ]
+      }
+    ]
+  }
+];
+
+// ─── STATE ──────────────────────────────────────────────
+let expandState = {};   // cat + topic expand
+let checkState = {};    // sub-topic checkmarks
+let activeFilter = 'all';
+
+function loadState() {
+  try { expandState = JSON.parse(localStorage.getItem('roadmap_expand') || '{}'); } catch(e) { expandState={}; }
+  try { checkState = JSON.parse(localStorage.getItem('roadmap_checks') || '{}'); } catch(e) { checkState={}; }
+}
+function saveState() {
+  localStorage.setItem('roadmap_expand', JSON.stringify(expandState));
+  localStorage.setItem('roadmap_checks', JSON.stringify(checkState));
+}
+
+loadState();
+
+// ─── RENDER ─────────────────────────────────────────────
+function render() {
+  const tree = document.getElementById('tree');
+  let html = '';
+  ROADMAP.forEach(cat => {
+    const catKey = cat.id;
+    const exp = expandState[catKey] !== false; // default open
+    const done = countCatDone(cat);
+    const total = countCatTotal(cat);
+    const pct = total ? Math.round(done/total*100) : 0;
+
+    html += `<li class="tree-node root cat-${cat.cat}" data-cat="${cat.cat}">
+      <div class="cat-row cat-${cat.cat}" onclick="toggleCat('${catKey}',event)">
+        <div class="cat-icon">${cat.icon}</div>
+        <div class="cat-info">
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-summary">${cat.summary}</div>
+        </div>
+        <div class="cat-meta">
+          <span>${done}/${total} done</span>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill ${cat.cat}" style="width:${pct}%"></div></div>
+        </div>
+        <span class="cat-arrow ${exp?'open':''}">▶</span>
+      </div>
+      <ul class="children ${exp?'expanded':'collapsed'}" id="children-${catKey}">`;
+
+    cat.topics.forEach(topic => {
+      const tKey = topic.id;
+      const texp = expandState[tKey] !== false;
+      html += `<li class="tree-node" data-cat="${cat.cat}" data-search="${topic.name.toLowerCase()} ${topic.summary.toLowerCase()}">
+        <div class="topic-row" onclick="toggleTopic('${tKey}',event)">
+          <div class="topic-icon ${cat.cat}">${topic.icon}</div>
+          <div class="topic-info">
+            <div class="topic-name">${topic.name}</div>
+            <div class="topic-summary">${topic.summary}</div>
+          </div>
+          <div class="topic-meta">
+            <span class="topic-arrow ${texp?'open':''}">▶</span>
+          </div>
+        </div>
+        <div class="subtopics children ${texp?'expanded':'collapsed'}" id="subs-${tKey}">`;
+
+      topic.subs.forEach(sub => {
+        const sKey = tKey + '::' + sub.name;
+        const chk = checkState[sKey];
+        html += `<div class="sub-row" data-cat="${cat.cat}" data-search="${sub.name.toLowerCase()}">
+          <div class="checkbox sub-check${chk?' checked':''}" onclick="toggleCheck('${sKey}',event)" title="Mark as done">${chk?'✓':''}</div>
+          <span class="sub-name">${sub.name}</span>
+          <div class="sub-links">`;
+        if (sub.yt) {
+          html += `<a class="sub-link yt" href="${sub.yt}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="YouTube tutorial">▶ Video</a>`;
+        }
+        if (sub.lc) {
+          html += `<a class="sub-link lc" href="${sub.lc}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="LeetCode practice">📝 LeetCode</a>`;
+        }
+        html += `</div></div>`;
+      });
+
+      html += `</div></li>`;
+    });
+
+    html += `</ul></li>`;
+  });
+  tree.innerHTML = html;
+  updateStats();
+  filter();
+}
+
+function countCatDone(cat) {
+  let d = 0;
+  cat.topics.forEach(t => t.subs.forEach(s => {
+    if (checkState[t.id + '::' + s.name]) d++;
+  }));
+  return d;
+}
+function countCatTotal(cat) {
+  let tot = 0;
+  cat.topics.forEach(t => tot += t.subs.length);
+  return tot;
+}
+
+function toggleCat(key, e) {
+  e.stopPropagation();
+  expandState[key] = expandState[key] === false ? true : false;
+  saveState();
+  const ul = document.getElementById('children-' + key);
+  const arrow = e.currentTarget.querySelector('.cat-arrow');
+  if (expandState[key] === false) {
+    ul.classList.remove('expanded'); ul.classList.add('collapsed');
+    if (arrow) arrow.classList.remove('open');
+  } else {
+    ul.classList.remove('collapsed'); ul.classList.add('expanded');
+    if (arrow) arrow.classList.add('open');
+  }
+}
+
+function toggleTopic(key, e) {
+  e.stopPropagation();
+  expandState[key] = expandState[key] === false ? true : false;
+  saveState();
+  const div = document.getElementById('subs-' + key);
+  const row = e.currentTarget;
+  const arrow = row.querySelector('.topic-arrow');
+  if (expandState[key] === false) {
+    div.classList.remove('expanded'); div.classList.add('collapsed');
+    if (arrow) arrow.classList.remove('open');
+  } else {
+    div.classList.remove('collapsed'); div.classList.add('expanded');
+    if (arrow) arrow.classList.add('open');
+  }
+}
+
+function toggleCheck(key, e) {
+  e.stopPropagation();
+  checkState[key] = !checkState[key];
+  saveState();
+  const el = e.currentTarget;
+  if (checkState[key]) {
+    el.classList.add('checked');
+    el.textContent = '✓';
+  } else {
+    el.classList.remove('checked');
+    el.textContent = '';
+  }
+  updateStats();
+  // Re-render category progress bars
+  ROADMAP.forEach(cat => {
+    const done = countCatDone(cat);
+    const total = countCatTotal(cat);
+    const pct = total ? Math.round(done/total*100) : 0;
+    // Find the progress bar for this category
+    document.querySelectorAll('.cat-row').forEach(row => {
+      const fill = row.querySelector('.progress-bar-fill');
+      const meta = row.querySelector('.cat-meta span');
+      if (fill && meta && row.classList.contains('cat-'+cat.cat)) {
+        fill.style.width = pct + '%';
+        meta.textContent = done + '/' + total + ' done';
+      }
+    });
+  });
+}
+
+function updateStats() {
+  let t2 = 0, d2 = 0;
+  ROADMAP.forEach(cat => {
+    cat.topics.forEach(t => t.subs.forEach(s => {
+      t2++;
+      if (checkState[t.id + '::' + s.name]) d2++;
+    }));
+  });
+  document.getElementById('stat-total').textContent = t2;
+  document.getElementById('stat-done').textContent = d2;
+  document.getElementById('stat-pct').textContent = t2 ? Math.round(d2/t2*100) + '%' : '0%';
+}
+
+function filter() {
+  const query = document.getElementById('search').value.toLowerCase();
+  const allNodes = document.querySelectorAll('.tree-node,.sub-row');
+  allNodes.forEach(n => {
+    if (activeFilter !== 'all' && n.dataset.cat && n.dataset.cat !== activeFilter) {
+      n.classList.add('hidden');
+      return;
+    }
+    if (!query) { n.classList.remove('hidden'); return; }
+    const s = n.dataset.search || '';
+    if (s.includes(query)) {
+      n.classList.remove('hidden');
+      // Expand parent category and topic if match found
+      expandParents(n);
+    } else {
+      n.classList.add('hidden');
+    }
+  });
+}
+
+function expandParents(el) {
+  // If it's a sub-row, expand parent topic and category
+  const subDiv = el.closest('.subtopics');
+  if (subDiv) {
+    const tKey = subDiv.id.replace('subs-', '');
+    if (expandState[tKey] === false) {
+      expandState[tKey] = true;
+      saveState();
+      subDiv.classList.remove('collapsed'); subDiv.classList.add('expanded');
+      const topicRow = subDiv.previousElementSibling;
+      if (topicRow) { const a = topicRow.querySelector('.topic-arrow'); if (a) a.classList.add('open'); }
+    }
+    // Expand parent category too
+    const childrenUl = subDiv.closest('.children');
+    if (childrenUl) {
+      const catId = childrenUl.id.replace('children-', '');
+      if (expandState[catId] === false) {
+        expandState[catId] = true;
+        saveState();
+        childrenUl.classList.remove('collapsed'); childrenUl.classList.add('expanded');
+        const catRow = childrenUl.previousElementSibling;
+        if (catRow) { const a = catRow.querySelector('.cat-arrow'); if (a) a.classList.add('open'); }
+      }
+    }
+  }
+}
+
+function setFilter(cat, el) {
+  document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = cat;
+  filter();
+}
+
+function resetAll() {
+  if (confirm('Reset all progress? This cannot be undone.')) {
+    checkState = {};
+    saveState();
+    render();
+  }
+}
+
+// ─── INIT ───────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
