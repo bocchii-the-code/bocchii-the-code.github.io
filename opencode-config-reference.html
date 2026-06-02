@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>opencode config // reference</title>
+<meta name="description" content="A reference guide to a curated opencode config: plugins, skills, MCP servers, slash commands, and design themes — with GitHub links for fast installation." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:        #201d1d;
+    --ink-deep:   #0f0000;
+    --charcoal:   #302c2c;
+    --body:       #424245;
+    --mute:       #646262;
+    --stone:      #6e6e73;
+    --ash:        #9a9898;
+    --canvas:     #fdfcfc;
+    --soft:       #f8f7f7;
+    --card:       #f1eeee;
+    --dark:       #201d1d;
+    --dark-elev:  #302c2c;
+    --hairline:   rgba(15,0,0,0.12);
+    --hairline-s: #646262;
+    --accent:     #007aff;
+    --warning:    #ff9f0a;
+    --danger:     #ff3b30;
+    --success:    #30d158;
+    --r-0: 0px;
+    --r-1: 4px;
+    --r-full: 9999px;
+    --s-1: 1px; --s-2: 4px; --s-3: 8px; --s-4: 12px; --s-5: 16px; --s-6: 24px; --s-7: 32px; --s-section: 96px;
+    --font: "JetBrains Mono", "Berkeley Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { background: var(--canvas); }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
+  ::selection { background: var(--ink); color: var(--canvas); }
+
+  /* nav */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--canvas);
+    border-bottom: 1px solid var(--hairline);
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+  }
+  .nav-brand {
+    font-weight: 700; font-size: 16px; letter-spacing: 0;
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: var(--ink);
+  }
+  .nav-brand .ascii {
+    color: var(--ink);
+    line-height: 1; font-size: 12px; white-space: pre;
+    display: inline-block; transform: translateY(-1px);
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 24px;
+    font-size: 14px; color: var(--body);
+  }
+  .nav-links a { color: var(--body); text-decoration: none; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink); color: var(--canvas);
+    padding: 4px 16px; border-radius: var(--r-1);
+    text-decoration: none; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 0; cursor: pointer; font-family: var(--font); font-size: 14px;
+    height: 32px;
+  }
+  .nav-cta:hover { background: var(--ink-deep); color: var(--canvas); }
+
+  /* layout */
+  main { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+  section { padding-top: var(--s-section); }
+  section + section { border-top: 1px solid var(--hairline); }
+
+  /* hero (TUI mockup) */
+  .hero { padding-top: 64px; padding-bottom: var(--s-section); }
+  .hero-meta {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--mute); font-size: 14px; margin-bottom: 24px;
+  }
+  .badge {
+    background: var(--dark); color: var(--on-dark, var(--canvas));
+    padding: 2px 8px; border-radius: var(--r-1);
+    font-size: 14px; line-height: 2; display: inline-block;
+  }
+  .hero h1 {
+    font-size: 38px; font-weight: 700; line-height: 1.5;
+    margin: 0 0 16px; letter-spacing: 0;
+  }
+  .hero p { color: var(--body); margin: 0 0 32px; max-width: 720px; }
+
+  .tui-mockup {
+    background: var(--dark); color: var(--canvas);
+    padding: 64px 32px; border-radius: var(--r-0);
+    margin-top: 32px;
+  }
+  .tui-ascii {
+    font-size: 12px; line-height: 1.2; white-space: pre; color: var(--canvas);
+    background: transparent !important;
+    border: 0 !important; padding: 0 !important; margin: 0 0 32px !important;
+    border-radius: 0 !important;
+    text-align: center;
+    user-select: none;
+    font-family: var(--font);
+  }
+  .tui-ascii .dim { color: var(--ash); }
+  .tui-prompt {
+    background: var(--dark-elev); border-radius: var(--r-1);
+    padding: 12px 16px; max-width: 720px; margin: 0 auto;
+    display: flex; align-items: center; gap: 12px; color: var(--canvas);
+    font-size: 14px;
+  }
+  .tui-prompt .pipe { color: var(--accent); }
+  .tui-prompt .cmd { color: var(--canvas); }
+  .tui-prompt .model {
+    color: var(--canvas); background: var(--ink); padding: 2px 8px;
+    border-radius: var(--r-1); font-size: 12px;
+  }
+  .tui-hint {
+    color: var(--ash); font-size: 12px; text-align: center; margin-top: 16px;
+  }
+  .tui-hint kbd {
+    background: transparent; color: var(--ash);
+    border: 0; font-family: var(--font); font-size: 12px;
+    padding: 0 2px;
+  }
+
+  /* section labels */
+  .sec-label {
+    font-size: 28px; font-weight: 700; line-height: 1.2;
+    margin: 0 0 24px; padding: 0 0 16px;
+    border-bottom: 2px solid var(--ink);
+    display: flex; align-items: baseline; gap: 12px;
+    letter-spacing: -0.01em;
+  }
+  .sec-label .count { color: var(--mute); font-size: 14px; font-weight: 400; margin-left: auto; }
+  .sec-sub {
+    color: var(--mute); font-size: 14px; margin: 0 0 24px;
+    max-width: 720px;
+  }
+  .sec-src {
+    color: var(--mute); font-size: 14px; margin: -8px 0 24px;
+    max-width: 720px; padding: 8px 12px;
+    background: var(--soft); border-left: 2px solid var(--ink);
+    border-radius: 0 var(--r-1) var(--r-1) 0;
+  }
+  .sec-src a { color: var(--ink); }
+  .sec-src a:hover { color: var(--accent); }
+
+  /* list rows */
+  .row-list { display: block; }
+  .row {
+    display: grid; grid-template-columns: 24px 1fr auto;
+    align-items: baseline; gap: 16px;
+    padding: 8px 0; border-bottom: 1px solid var(--hairline);
+  }
+  .row:last-child { border-bottom: 0; }
+  .row .marker { color: var(--mute); font-size: 16px; user-select: none; }
+  .row .body { color: var(--body); }
+  .row .body strong { color: var(--ink); font-weight: 700; }
+  .row .body .meta {
+    color: var(--mute); font-size: 14px; display: inline-block; margin-left: 4px;
+  }
+  .row .body .desc { color: var(--body); }
+  .row .body p { margin: 4px 0 0; color: var(--mute); font-size: 14px; }
+  .row .links { display: flex; gap: 16px; align-items: center; white-space: nowrap; }
+  .row .links a {
+    color: var(--ink); font-size: 14px; text-decoration: underline;
+    text-decoration-color: var(--hairline-s);
+  }
+  .row .links a:hover { text-decoration-color: var(--ink); color: var(--accent); }
+  .row .links .src {
+    color: var(--mute); font-size: 12px; padding: 2px 6px;
+    border: 1px solid var(--hairline); border-radius: var(--r-1);
+  }
+
+  /* sub-section heading inside a section */
+  h3 {
+    font-size: 20px; font-weight: 700; margin: 56px 0 16px;
+    display: flex; align-items: center; gap: 10px;
+    letter-spacing: -0.01em;
+  }
+  h3::before {
+    content: ""; display: inline-block; width: 16px; height: 2px;
+    background: var(--ink); margin-right: 4px;
+  }
+  h3 .marker { color: var(--mute); }
+  h3 .count { color: var(--mute); font-weight: 400; }
+
+  /* category tags */
+  .tag {
+    display: inline-block; padding: 2px 8px;
+    font-size: 12px; border-radius: var(--r-1);
+    background: var(--card); color: var(--body);
+    border: 1px solid var(--hairline);
+    margin-right: 6px; line-height: 1.6;
+  }
+  .tag.official { background: var(--canvas); border-color: var(--ink); color: var(--ink); }
+  .tag.community { background: var(--soft); border-color: var(--hairline); }
+  .tag.npm { background: var(--canvas); border-color: var(--hairline); color: var(--mute); }
+
+  /* install block */
+  .install {
+    background: var(--card); border-radius: var(--r-1);
+    padding: 12px 16px; margin: 16px 0 24px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px;
+  }
+  .install code { background: transparent; padding: 0; font-family: var(--font); color: var(--ink); flex: 1; }
+  .install .copy {
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--hairline-s); border-radius: var(--r-1);
+    padding: 2px 8px; font-family: var(--font); font-size: 12px;
+    cursor: pointer; line-height: 1.6;
+  }
+  .install .copy:hover { background: var(--soft); }
+  .install .copy.copied { color: var(--success); border-color: var(--success); }
+
+  /* filter */
+  .filter {
+    display: flex; align-items: center; gap: 12px;
+    margin: 0 0 24px;
+  }
+  .filter input {
+    flex: 1; max-width: 360px;
+    background: var(--soft); border: 1px solid var(--hairline);
+    border-radius: var(--r-1); padding: 8px 12px;
+    font-family: var(--font); font-size: 14px; color: var(--ink);
+    height: 40px;
+  }
+  .filter input:focus { outline: 0; background: var(--canvas); border-color: var(--ink); }
+  .filter .count { color: var(--mute); font-size: 14px; }
+
+  /* theme grid */
+  .theme-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 4px;
+    margin-top: 16px;
+  }
+  .theme {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-1);
+    padding: 12px 14px;
+    background: var(--canvas);
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .theme .name { font-weight: 500; color: var(--ink); font-size: 14px; }
+  .theme .dot { width: 8px; height: 8px; border-radius: var(--r-full); background: var(--ink); }
+  .theme:hover { background: var(--soft); }
+  .theme.hidden { display: none; }
+
+  /* code / pre blocks */
+  pre, code { font-family: var(--font); }
+  pre {
+    background: var(--soft); border: 1px solid var(--hairline);
+    border-radius: var(--r-1); padding: 16px 20px;
+    overflow-x: auto; font-size: 13px; line-height: 1.6;
+    color: var(--ink); margin: 0 0 16px;
+    white-space: pre;
+  }
+  p code, li code, .row code {
+    background: var(--soft); border-radius: var(--r-1);
+    padding: 1px 6px; font-size: 13px; color: var(--ink);
+  }
+
+  /* AGENTS.md section */
+  .doc-card {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-0);
+    padding: 24px 32px;
+    background: var(--canvas);
+    margin: 24px 0;
+  }
+  .doc-card h2 {
+    font-size: 16px; font-weight: 700; margin: 0 0 8px;
+  }
+  .doc-card p.lede { color: var(--body); margin: 0 0 16px; }
+  .doc-card ol, .doc-card ul { padding-left: 24px; color: var(--body); }
+  .doc-card ol li, .doc-card ul li { margin: 4px 0; }
+  .doc-card hr { border: 0; border-top: 1px solid var(--hairline); margin: 24px 0; }
+  .doc-card h3 { margin-top: 16px; }
+  .doc-card blockquote {
+    border-left: 2px solid var(--accent);
+    padding: 4px 12px; margin: 16px 0; color: var(--body);
+  }
+  .doc-source {
+    color: var(--mute); font-size: 12px; margin-top: 8px;
+  }
+  .copy-block {
+    position: relative;
+  }
+  .copy-block .copy {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--canvas); color: var(--ink);
+    border: 1px solid var(--hairline-s); border-radius: var(--r-1);
+    padding: 2px 8px; font-family: var(--font); font-size: 12px;
+    cursor: pointer;
+  }
+  .copy-block .copy:hover { background: var(--soft); }
+  .copy-block .copy.copied { color: var(--success); border-color: var(--success); }
+
+  /* command list */
+  .cmd-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 24px; padding: 8px 0; border-bottom: 1px solid var(--hairline);
+    align-items: baseline;
+  }
+  .cmd-row:last-child { border-bottom: 0; }
+  .cmd-row .name { color: var(--ink); font-weight: 500; }
+  .cmd-row .desc { color: var(--body); font-size: 14px; }
+
+  /* mcp card */
+  .mcp-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px; margin-top: 16px;
+  }
+  .mcp {
+    border: 1px solid var(--hairline); border-radius: var(--r-1);
+    padding: 20px; background: var(--canvas);
+  }
+  .mcp .name { font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .mcp .name .marker { color: var(--success); }
+  .mcp .name .marker.off { color: var(--mute); }
+  .mcp .desc { color: var(--body); font-size: 14px; margin: 8px 0; }
+  .mcp .meta { color: var(--mute); font-size: 12px; }
+  .mcp .meta a { color: var(--ink); }
+
+  /* footer */
+  footer {
+    padding: 64px 0 32px; margin-top: var(--s-section);
+    border-top: 1px solid var(--hairline);
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 16px; text-align: center;
+    font-size: 14px; color: var(--body);
+  }
+  .foot-grid a { color: var(--body); text-decoration: none; }
+  .foot-grid a:hover { color: var(--ink); }
+  .foot-bottom {
+    margin-top: 32px; display: flex; justify-content: space-between;
+    color: var(--mute); font-size: 14px; line-height: 2;
+  }
+
+  /* responsive */
+  @media (max-width: 850px) {
+    .foot-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 640px) {
+    main { padding: 0 16px; }
+    .hero h1 { font-size: 28px; }
+    .row { grid-template-columns: 24px 1fr; }
+    .row .links { grid-column: 1 / -1; padding-left: 40px; }
+    .mcp-grid { grid-template-columns: 1fr; }
+    .tui-mockup { padding: 32px 16px; }
+    .tui-ascii { font-size: 9px; }
+    .cmd-row { grid-template-columns: 1fr; gap: 4px; }
+    section { padding-top: 64px; }
+    .nav { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="#top">
+    <span class="ascii" aria-hidden="true">
+██████╗ ██████╗ ███████╗███╗   ██╗
+██╔══██╗██╔══██╗██╔════╝████╗  ██║
+██████╔╝██████╔╝█████╗  ██╔██╗ ██║
+██╔═══╝ ██╔══██╗██╔══╝  ██║╚██╗██║
+██║     ██║  ██║███████╗██║ ╚████║
+╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
+    </span>
+    <span>// config</span>
+  </a>
+  <div class="nav-links">
+    <a href="#plugins">plugins</a>
+    <a href="#skills">skills</a>
+    <a href="#mcp">mcp</a>
+    <a href="#agents">agents</a>
+    <a href="#themes">themes</a>
+    <a href="#agents-md">AGENTS.md</a>
+  </div>
+  <a class="nav-cta" href="https://opencode.ai" target="_blank" rel="noopener">opencode.ai →</a>
+</nav>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-meta">
+      <span class="badge">v1.x</span>
+      <span>// opencode config reference</span>
+    </div>
+    <h1>A curated opencode config for engineers who ship.</h1>
+    <p>
+      A working setup of plugins, skills, MCP servers, slash commands, and design themes —
+      distilled into one reference. Every entry links to a public GitHub repo so you can
+      install, fork, or inspect the source.
+    </p>
+
+    <div class="tui-mockup" role="img" aria-label="OpenCode TUI mockup">
+<pre class="tui-ascii"><span class="dim"> ┌────────────────────────────────────────────┐</span>
+<span class="dim"> │</span>  <span> ██████╗ ██████╗ ███████╗███╗   ██╗</span>  <span class="dim">│</span>
+<span class="dim"> │</span>  <span>██╔══██╗██╔══██╗██╔════╝████╗  ██║</span>  <span class="dim">│</span>
+<span class="dim"> │</span>  <span>██████╔╝██████╔╝█████╗  ██╔██╗ ██║</span>  <span class="dim">│</span>
+<span class="dim"> │</span>  <span>██╔═══╝ ██╔══██╗██╔══╝  ██║╚██╗██║</span>  <span class="dim">│</span>
+<span class="dim"> │</span>  <span>██║     ██║  ██║███████╗██║ ╚████║</span>  <span class="dim">│</span>
+<span class="dim"> │</span>  <span>╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝</span>  <span class="dim">│</span>
+<span class="dim"> └────────────────────────────────────────────┘</span></pre>
+      <div class="tui-prompt">
+        <span class="pipe">▌</span>
+        <span class="cmd">share this config with the team</span>
+        <span class="model">@explore</span>
+      </div>
+      <div class="tui-hint"><kbd>tab</kbd> switch agent  ·  <kbd>ctrl-p</kbd> commands</div>
+    </div>
+  </section>
+
+  <!-- PLUGINS -->
+  <section id="plugins">
+    <div class="sec-label">[+] plugins</div>
+    <p class="sec-sub">Four active plugins extend opencode: an agent orchestrator, a desktop notifier, the Superpowers methodology pack, and a local knowledge-graph plugin. Install via <code>opencode.json → plugin</code>.</p>
+
+    <div class="install">
+      <code>{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest"] }</code>
+      <button class="copy" data-copy='{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest"] }'>copy</button>
+    </div>
+
+    <div class="row-list">
+      <div class="row">
+        <div class="marker">[+]</div>
+        <div class="body">
+          <strong>oh-my-opencode-slim</strong> <span class="meta">npm</span>
+          <p class="desc">A slimmed, fine-tuned fork of oh-my-opencode. Bundles a team of specialized agents (orchestrator, oracle, librarian, explorer, designer, fixer, council) with model presets and skill/MCP wiring. ~5K★ · MIT.</p>
+        </div>
+        <div class="links">
+          <a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">github →</a>
+          <a href="https://www.npmjs.com/package/oh-my-opencode-slim" target="_blank" rel="noopener">npm →</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="marker">[+]</div>
+        <div class="body">
+          <strong>@mohak34/opencode-notifier</strong> <span class="meta">npm</span>
+          <p class="desc">Cross-platform desktop notifications + sound on permission prompts, completion, errors, and question-tool invocations. macOS / Linux / Windows.</p>
+        </div>
+        <div class="links">
+          <a href="https://github.com/mohak34/opencode-notifier" target="_blank" rel="noopener">github →</a>
+          <a href="https://www.npmjs.com/package/@mohak34/opencode-notifier" target="_blank" rel="noopener">npm →</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="marker">[+]</div>
+        <div class="body">
+          <strong>superpowers</strong> <span class="meta">local · github</span>
+          <p class="desc">Obra's agentic skills framework — a complete software-development methodology (brainstorm → plan → TDD → subagent dispatch → review) packaged as a <code>SKILL.md</code> library. ~215K★.</p>
+        </div>
+        <div class="links">
+          <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener">github →</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="marker">[+]</div>
+        <div class="body">
+          <strong>rtk (RTK OpenCode plugin)</strong> <span class="meta">requires rtk binary</span>
+          <p class="desc">A thin delegating plugin that rewrites Bash tool calls to <code>rtk</code> equivalents — compressing command output (git, cargo, pytest, docker, kubectl, …) by 60-90% before it hits the LLM context. ~57K★ · MIT.</p>
+        </div>
+        <div class="links">
+          <a href="https://github.com/rtk-ai/rtk" target="_blank" rel="noopener">github →</a>
+          <a href="https://www.rtk-ai.app" target="_blank" rel="noopener">site →</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="doc-source">Local plugin file: <code>~/.opencode/plugins/graphify.js</code> — companion to the <a href="https://github.com/safishamsi/graphify" target="_blank" rel="noopener">Graphify</a> knowledge-graph skill below.</p>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-label">[+] skills</div>
+    <p class="sec-sub">Skills live in <code>~/.config/opencode/skills/&lt;name&gt;/SKILL.md</code> and are loaded on demand by the agent. <code>SKILL.md</code> is the open Agent-Skills standard — drop any of these folders in and they work.</p>
+
+    <div class="filter">
+      <input type="search" id="skill-search" placeholder="filter skills…" autocomplete="off" />
+      <span class="count" id="skill-count"></span>
+    </div>
+
+    <h3><span class="marker">[x]</span> superpowers <span class="count">— process &amp; methodology (obra/superpowers)</span></h3>
+    <div class="row-list skill-list" data-source="obra/superpowers">
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>brainstorming</strong> <span class="meta">Socratic design refinement</span><p>Explore intent &amp; constraints before any code is written. Produces a validated spec.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/brainstorming" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>writing-plans</strong> <span class="meta">Implementation plans</span><p>Decompose an approved spec into an ordered, testable task list.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/writing-plans" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>executing-plans</strong> <span class="meta">Batch execution with checkpoints</span><p>Run the plan in batches with explicit review gates.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/executing-plans" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>test-driven-development</strong> <span class="meta">red → green → refactor</span><p>Enforces true red-green-refactor. Deletes code written before tests.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/test-driven-development" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>systematic-debugging</strong> <span class="meta">Root-cause over symptom</span><p>Disciplined debugging — repro, isolate, fix, regression-test.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/systematic-debugging" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>subagent-driven-development</strong> <span class="meta">Two-stage review</span><p>Spawn subagents per task, then review for spec-compliance + code quality.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>dispatching-parallel-agents</strong> <span class="meta">Concurrent subagent flows</span><p>Fan-out independent work across parallel agents safely.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>using-git-worktrees</strong> <span class="meta">Parallel branches</span><p>Isolate work in dedicated worktrees so multiple agents don't collide.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>requesting-code-review</strong> <span class="meta">Pre-review checklist</span><p>Self-review before opening a PR — spec, scope, tests, risk.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/requesting-code-review" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>receiving-code-review</strong> <span class="meta">Responding to feedback</span><p>Verify review suggestions, push back when wrong, never blindly comply.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/receiving-code-review" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>finishing-a-development-branch</strong> <span class="meta">Merge / PR decision flow</span><p>Guide work to a clean landing: merge, PR, or discard.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/finishing-a-development-branch" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>writing-skills</strong> <span class="meta">Create new skills</span><p>Author new <code>SKILL.md</code> skills following the spec, with testing methodology.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/writing-skills" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>using-superpowers</strong> <span class="meta">Skills-system overview</span><p>Entry point that teaches the agent when to load each skill.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/using-superpowers" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>verification-before-completion</strong> <span class="meta">Evidence before assertions</span><p>Run the command, paste the output, then claim success.</p></div><div class="links"><a href="https://github.com/obra/superpowers/tree/main/skills/verification-before-completion" target="_blank" rel="noopener">src →</a></div></div>
+    </div>
+
+    <h3><span class="marker">[x]</span> anthropic official <span class="count">— document &amp; design skills (anthropics/skills)</span></h3>
+    <div class="row-list skill-list" data-source="anthropics/skills">
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>docx</strong> <span class="meta">Word documents</span><p>Create, read, edit Word files — TOC, headings, page numbers, letterheads, tracked changes.</p></div><div class="links"><a href="https://github.com/anthropics/skills/tree/main/skills/docx" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>pdf</strong> <span class="meta">PDF manipulation</span><p>Extract, merge, split, rotate, watermark, fill forms, OCR scanned PDFs.</p></div><div class="links"><a href="https://github.com/anthropics/skills/tree/main/skills/pdf" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>pptx</strong> <span class="meta">PowerPoint decks</span><p>Create / edit decks, parse text, modify templates, speaker notes, comments.</p></div><div class="links"><a href="https://github.com/anthropics/skills/tree/main/skills/pptx" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>xlsx</strong> <span class="meta">Spreadsheets</span><p>Open / read / edit / fix spreadsheets, compute formulas, chart, clean messy data.</p></div><div class="links"><a href="https://github.com/anthropics/skills/tree/main/skills/xlsx" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>theme-factory</strong> <span class="meta">10 preset themes</span><p>Style any artifact (slides / docs / reports / HTML) with a cohesive palette + font pair.</p></div><div class="links"><a href="https://github.com/anthropics/skills/tree/main/skills/theme-factory" target="_blank" rel="noopener">src →</a></div></div>
+    </div>
+
+    <h3><span class="marker">[x]</span> community <span class="count">— third-party skills with public repos</span></h3>
+    <div class="row-list skill-list" data-source="community">
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>frontend-design</strong> <span class="meta">polished UI / HTML</span><p>Create distinctive, production-grade frontends that avoid generic AI aesthetics. Pulls from <code>design-md/</code> as the system of styles.</p></div><div class="links"><a href="https://github.com/flitzrrr/frontend-design-skills" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>grill-me</strong> <span class="meta">stress-test a plan</span><p>Relentless one-at-a-time interview of a design until every branch is resolved.</p></div><div class="links"><a href="https://github.com/mattpocock/skills/tree/main/grill-me" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>grill-with-docs</strong> <span class="meta">grill + write CONTEXT.md &amp; ADRs</span><p>Grilling that sharpens the domain glossary and writes architecture-decision records inline.</p></div><div class="links"><a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>graphify</strong> <span class="meta">code → knowledge graph</span><p>Multi-modal (code, docs, PDFs, images) → NetworkX graph → Leiden communities → HTML + JSON + audit report.</p></div><div class="links"><a href="https://github.com/safishamsi/graphify" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>cartography</strong> <span class="meta">hierarchical codemaps</span><p>Generate folder-by-folder codemaps aggregated into a root atlas, registered via <code>AGENTS.md</code>.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/cartography" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>skill-creator</strong> <span class="meta">author / eval / optimize skills</span><p>Plugin + skill pair that validates <code>SKILL.md</code> structure, generates evals, runs trigger-accuracy optimization loops.</p></div><div class="links"><a href="https://github.com/antongulin/opencode-skill-creator" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>ppt-master</strong> <span class="meta">SVG → editable PPTX</span><p>Multi-format content → SVG pages → natively editable PowerPoint (real DrawingML, not images).</p></div><div class="links"><a href="https://github.com/hugohe3/ppt-master" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>web-access</strong> <span class="meta">3-tier network gateway</span><p>WebSearch / WebFetch / curl / Jina / CDP, with browser automation, parallel dispatch, and per-domain memory.</p></div><div class="links"><a href="https://github.com/eze-is/web-access" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>karpathy-guideline</strong> <span class="meta">LLM-coding guardrails</span><p>Four principles (think first, simplicity, surgical changes, goal-driven execution) derived from Karpathy's observations.</p></div><div class="links"><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>code-simplify</strong> <span class="meta">clarity refiner</span><p>Refines recently-modified code for clarity / consistency / maintainability without changing behavior. Boris Cherny's <code>/simplify</code> as a portable skill.</p></div><div class="links"><a href="https://github.com/lyen1688/code-simplifier" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>readme-writer</strong> <span class="meta">auto-exploring README</span><p>Generates README documentation grounded in actual code, not assumptions.</p></div><div class="links"><a href="https://github.com/5Mcv4He/github-readme-skill" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>resume-refiner</strong> <span class="meta">CV / resume polishing</span><p>Improve wording, structure, and visual polish of existing resumes.</p></div><div class="links"><a href="https://github.com/earino/resumasher" target="_blank" rel="noopener">src →</a></div></div>
+    </div>
+  </section>
+
+  <!-- MCP SERVERS -->
+  <section id="mcp">
+    <div class="sec-label">[+] mcp servers</div>
+    <p class="sec-sub">Model Context Protocol servers give the agent access to external tools — search, browser automation, etc. Configured under <code>opencode.json → mcp</code>.</p>
+
+    <div class="mcp-grid">
+      <div class="mcp">
+        <div class="name"><span class="marker">●</span> exa <span class="tag community">remote</span></div>
+        <div class="desc">Neural search engine API — clean, ready-to-use content from top results. Used by the librarian agent for fresh web context.</div>
+        <div class="meta">URL · <a href="https://mcp.exa.ai/mcp" target="_blank" rel="noopener">mcp.exa.ai/mcp</a> · <a href="https://exa.ai" target="_blank" rel="noopener">exa.ai</a></div>
+      </div>
+      <div class="mcp">
+        <div class="name"><span class="marker off">●</span> playwright <span class="tag community">local</span></div>
+        <div class="desc">Browser automation MCP — navigate, fill forms, click, screenshot, scrape data, run end-to-end web tests via Playwright.</div>
+        <div class="meta">Command · <code>npx @playwright/mcp@latest</code> · <a href="https://github.com/microsoft/playwright-mcp" target="_blank" rel="noopener">github.com/microsoft/playwright-mcp</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGENT PRESETS -->
+  <section id="agents">
+    <div class="sec-label">[+] agent presets</div>
+    <p class="sec-sub">The <code>oh-my-opencode-slim</code> plugin ships a coordinated agent team. Each agent has a focused role, model, and curated skill/MCP allow-list.</p>
+
+    <div class="row-list">
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>orchestrator</strong> <span class="meta">primary</span><p>Plans, dispatches, and coordinates. Has access to all skills and MCPs.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>oracle</strong> <span class="meta">strategic advisor</span><p>Senior-architect review, multi-system refactors, hard debugging, security/scalability decisions.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>librarian</strong> <span class="meta">docs &amp; library research</span><p>Fetches current library docs, version-specific API behavior, GitHub usage examples.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>explorer</strong> <span class="meta">codebase search</span><p>Fast parallel search, file/pattern discovery, repo codemaps.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>designer</strong> <span class="meta">UI/UX</span><p>Visual edits, responsive layouts, design systems, micro-interactions.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>fixer</strong> <span class="meta">fast execution</span><p>Bounded implementation, surgical edits, parallelizable code work.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>council</strong> <span class="meta">multi-LLM consensus</span><p>Routes high-stakes decisions to multiple models, synthesizes views.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+    </div>
+  </section>
+
+  <!-- SLASH COMMANDS -->
+  <section id="commands">
+    <div class="sec-label">[+] slash commands</div>
+    <p class="sec-sub">User-invoked commands live in <code>~/.config/opencode/commands/</code>. Type <code>/&lt;name&gt;</code> in the TUI to trigger.</p>
+
+    <div class="cmd-row">
+      <div class="name">/code-simplifier</div>
+      <div class="desc">Run a focused simplification review — finds overly verbose code, complex control flow, and unnecessary abstractions, then proposes minimal-impact fixes.</div>
+    </div>
+    <div class="cmd-row">
+      <div class="name">/grill-me</div>
+      <div class="desc">Relentlessly interview the user about a plan or design until every branch of the decision tree is resolved, one question at a time.</div>
+    </div>
+    <div class="cmd-row">
+      <div class="name">/karpathy-guidelines</div>
+      <div class="desc">Apply Karpathy's four LLM-coding principles: think first, simplicity first, surgical changes, goal-driven execution.</div>
+    </div>
+  </section>
+
+  <!-- DESIGN THEMES -->
+  <section id="themes">
+    <div class="sec-label">[+] design theme library <span class="count">(66 brand-style references)</span></div>
+    <p class="sec-sub">The <code>design-md/</code> folder holds 66 brand-style <code>DESIGN.md</code> systems used as the source of truth for visual artifacts. Pick one before generating HTML / slides / reports; the agent follows its token system strictly.</p>
+    <p class="sec-src">Source · <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noopener">VoltAgent/awesome-design-md</a> — a curated catalog of brand design systems used as visual style references.</p>
+
+    <div class="filter">
+      <input type="search" id="theme-search" placeholder="filter themes…" autocomplete="off" />
+      <span class="count" id="theme-count"></span>
+    </div>
+
+    <h3><span class="marker">[x]</span> tech / dev tools <span class="count" id="cat-tech"></span></h3>
+    <div class="theme-grid" data-cat="tech">
+      <div class="theme"><span class="name">opencode.ai</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">vercel</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">supabase</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">clickhouse</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">mongodb</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">hashicorp</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">sentry</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">posthog</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">sanity</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">replicate</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">runwayml</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">together.ai</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">raycast</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">warp</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">webflow</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">lovable</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">cursor</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">claude</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">ollama</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">mistral.ai</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">cohere</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">composio</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">intercom</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">clay</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">expo</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">voltagent</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">mintlify</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">figma</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">framer</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">miro</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">notion</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">linear.app</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">shopify</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">stripe</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">mastercard</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">wise</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">revolut</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">resend</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">coinbase</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">kraken</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">binance</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">zapier</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">elevenlabs</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">slack</span><span class="dot"></span></div>
+    </div>
+
+    <h3><span class="marker">[x]</span> auto / transport <span class="count" id="cat-auto"></span></h3>
+    <div class="theme-grid" data-cat="auto">
+      <div class="theme"><span class="name">tesla</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">bmw</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">bmw-m</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">ferrari</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">bugatti</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">lamborghini</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">renault</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">uber</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">spacex</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">playstation</span><span class="dot"></span></div>
+    </div>
+
+    <h3><span class="marker">[x]</span> consumer / lifestyle <span class="count" id="cat-life"></span></h3>
+    <div class="theme-grid" data-cat="life">
+      <div class="theme"><span class="name">apple</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">airbnb</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">airtable</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">cal</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">nike</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">pinterest</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">spotify</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">starbucks</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">superhuman</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">theverge</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">wired</span><span class="dot"></span></div>
+    </div>
+
+    <h3><span class="marker">[x]</span> enterprise / platform <span class="count" id="cat-ent"></span></h3>
+    <div class="theme-grid" data-cat="ent">
+      <div class="theme"><span class="name">ibm</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">meta</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">minimax</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">nvidia</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">vodafone</span><span class="dot"></span></div>
+      <div class="theme"><span class="name">x.ai</span><span class="dot"></span></div>
+    </div>
+  </section>
+
+  <!-- AGENTS.md BEST PRACTICES -->
+  <section id="agents-md">
+    <div class="sec-label">[+] AGENTS.md best practices</div>
+    <p class="sec-sub">A complete, battle-tested <code>AGENTS.md</code> for governing autonomous coding agents. Drop this file into any project's root to apply the same workflow discipline to subagents and tool usage.</p>
+
+    <div class="doc-card copy-block">
+      <button class="copy" data-copy="AGENTS.md">copy</button>
+      <h2>AGENTS.md</h2>
+      <p class="lede">This document governs the behavior, workflow, and technical execution for all autonomous coding agents and subagents operating within this system. Read these instructions carefully before beginning any task.</p>
+      <hr />
+
+      <h3>1. Skill Calling (Tool Usage)</h3>
+      <p>You are equipped with a variety of skills to interact with the codebase, terminal, and external resources. When task-specific prompts are provided (e.g. "Create slides", "read the PDF file"), skim your skill base and call the corresponding skills. Use them judiciously and effectively.</p>
+      <p><strong>Basic instructions:</strong></p>
+      <ul>
+        <li>ALWAYS USE PARALLEL TOOLS WHEN APPLICABLE.</li>
+        <li>Skills live under <code>~/.config/opencode/skills/</code>.</li>
+        <li>When designing a webpage, report, or slides — anything with visual requirements — use <code>~/.config/opencode/design-md/</code> to fetch a style spec, then follow the chosen folder's <code>DESIGN.md</code> strictly. Readability is non-negotiable.</li>
+      </ul>
+      <p><strong>Rules for skill calling:</strong></p>
+      <ul>
+        <li><strong>Assess before acting:</strong> read files and search code to understand the existing architecture, dependencies, and patterns first.</li>
+        <li><strong>Atomic actions:</strong> keep tool calls focused. Do not attempt to modify 10 files in a single edit. Make incremental changes.</li>
+        <li><strong>Verify inputs:</strong> ensure file paths and syntax are exactly correct before any code-edit or file-write skill.</li>
+        <li><strong>Handle errors gracefully:</strong> if a skill call fails, do not panic. Read the error, analyze the cause, and apply a systematic fix.</li>
+      </ul>
+      <hr />
+
+      <h3>2. Subagent Delegation (Orchestration)</h3>
+      <p>Complex tasks must not be handled by a single monolithic process. Break large features into isolated sub-tasks and delegate to specialized subagents.</p>
+      <p><strong>Delegation workflow:</strong></p>
+      <ol>
+        <li><strong>Analyze the objective</strong> — deconstruct the user's prompt into a checklist of sub-tasks.</li>
+        <li><strong>Define the bounded context</strong> — give the subagent the <em>exact</em> context it needs, no more, no less. Specific file paths and clear acceptance criteria.</li>
+        <li><strong>Dispatch subagents</strong> — call the appropriate subagent sequentially or in parallel, depending on the task.</li>
+        <li><strong>Review and integrate</strong> — verify the subagent's work. Ensure it aligns with the task requirements before moving on.</li>
+      </ol>
+      <hr />
+
+      <h3>3. Mandatory Post-Update Validation (Smoke Testing)</h3>
+      <blockquote>Reliability is the highest priority. Never assume your code works simply because it looks correct.</blockquote>
+      <p><strong>CRITICAL RULE:</strong> Following any "Large Update," you are strictly required to run the project's smoke tests to verify system stability before reporting the task as complete.</p>
+      <p><strong>What counts as a Large Update?</strong></p>
+      <ul>
+        <li>Changes affecting core architecture, state management, or routing.</li>
+        <li>Modifications spanning 3 or more files.</li>
+        <li>Adding, removing, or upgrading dependencies in <code>package.json</code> (or equivalent).</li>
+        <li>Refactoring existing, functioning components.</li>
+      </ul>
+      <p><strong>The Smoke Test Protocol:</strong></p>
+      <ol>
+        <li><strong>Run the linter / compiler</strong> — no syntax errors or strict type warnings.</li>
+        <li><strong>Execute the smoke test suite</strong> — run the designated command via terminal.</li>
+        <li><strong>Verify application startup</strong> — start the local dev server and wait for the signal of successful service startup to ensure the app doesn't crash on boot.</li>
+        <li><strong>Iterate on failure</strong> — if a smoke test fails, halt progress, read the test logs, identify the regression, and fix it. <strong>Do not mark the task as complete until tests pass.</strong></li>
+      </ol>
+      <hr />
+
+      <h3>4. Standard Execution Loop</h3>
+      <p>For every prompt that involves code implementation, follow this strict loop:</p>
+      <ol>
+        <li><strong>PLAN</strong> — analyze the request, explore the codebase, and formulate a step-by-step plan. If the prompt is fuzzy, invoke the <code>grill-me</code> skill to drill down for clarifications.</li>
+        <li><strong>DELEGATE</strong> — break the plan into sub-tasks and assign them to subagents if the scope requires it.</li>
+        <li><strong>EXECUTE</strong> — write code, modify files, implement the features.</li>
+        <li><strong>TEST</strong> — trigger the linter and <strong>smoke tests</strong> (mandatory for large updates).</li>
+        <li><strong>REPORT</strong> — provide a concise summary of changes, tests run, and final status.</li>
+      </ol>
+      <p class="doc-source">Source · local file at <code>~/.config/opencode/AGENTS.md</code> — included here verbatim as a reference template.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <a href="https://opencode.ai" target="_blank" rel="noopener">opencode.ai</a>
+    <a href="https://github.com/sst/opencode" target="_blank" rel="noopener">github</a>
+    <a href="https://opencode.ai/docs" target="_blank" rel="noopener">docs</a>
+    <a href="https://opencode.ai/changelog" target="_blank" rel="noopener">changelog</a>
+    <a href="https://discord.gg/opencode" target="_blank" rel="noopener">discord</a>
+  </div>
+  <div class="foot-bottom">
+    <span>// opencode config reference</span>
+    <span>share · fork · adapt</span>
+  </div>
+</footer>
+
+<script>
+  // copy buttons
+  document.querySelectorAll('.copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = btn.getAttribute('data-copy') || '';
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = btn.textContent;
+        btn.textContent = 'copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1400);
+      } catch (e) { /* ignore */ }
+    });
+  });
+
+  // skill filter
+  const skillSearch = document.getElementById('skill-search');
+  const skillCount = document.getElementById('skill-count');
+  const skillLists = document.querySelectorAll('.skill-list');
+  if (skillSearch) {
+    const update = () => {
+      const q = skillSearch.value.trim().toLowerCase();
+      let total = 0, visible = 0;
+      skillLists.forEach(list => {
+        const rows = list.querySelectorAll('.row');
+        rows.forEach(r => {
+          total++;
+          const text = r.textContent.toLowerCase();
+          const match = !q || text.includes(q);
+          r.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+      });
+      skillCount.textContent = q ? `${visible} / ${total}` : `${total} skills`;
+    };
+    skillSearch.addEventListener('input', update);
+    update();
+  }
+
+  // theme filter
+  const themeSearch = document.getElementById('theme-search');
+  const themeCount = document.getElementById('theme-count');
+  if (themeSearch) {
+    const update = () => {
+      const q = themeSearch.value.trim().toLowerCase();
+      let total = 0, visible = 0;
+      document.querySelectorAll('.theme-grid').forEach(grid => {
+        const items = grid.querySelectorAll('.theme');
+        items.forEach(t => {
+          total++;
+          const name = t.querySelector('.name').textContent.toLowerCase();
+          const match = !q || name.includes(q);
+          t.classList.toggle('hidden', !match);
+          if (match) visible++;
+        });
+      });
+      themeCount.textContent = q ? `${visible} / ${total}` : `${total} themes`;
+    };
+    themeSearch.addEventListener('input', update);
+    update();
+  }
+</script>
+</body>
+</html>
