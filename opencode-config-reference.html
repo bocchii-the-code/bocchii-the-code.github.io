@@ -443,8 +443,8 @@
     <p class="sec-sub">Four active plugins extend opencode: an agent orchestrator, a desktop notifier, the Superpowers methodology pack, and a local knowledge-graph plugin. Install via <code>opencode.json → plugin</code>.</p>
 
     <div class="install">
-      <code>{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest"] }</code>
-      <button class="copy" data-copy='{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest"] }'>copy</button>
+      <code>{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest", "~/.config/opencode/node_modules/superpowers", ".opencode/plugins/graphify.js"] }</code>
+      <button class="copy" data-copy='{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest", "~/.config/opencode/node_modules/superpowers", ".opencode/plugins/graphify.js"] }'>copy</button>
     </div>
 
     <div class="row-list">
@@ -473,27 +473,17 @@
       <div class="row">
         <div class="marker">[+]</div>
         <div class="body">
-          <strong>superpowers</strong> <span class="meta">local · github</span>
-          <p class="desc">Obra's agentic skills framework — a complete software-development methodology (brainstorm → plan → TDD → subagent dispatch → review) packaged as a <code>SKILL.md</code> library. ~215K★.</p>
+          <strong>superpowers</strong> <span class="meta">local path · npm</span>
+          <p class="desc">Obra's agentic skills framework — a complete software-development methodology (brainstorm → plan → TDD → subagent dispatch → review) installed as a local npm dependency. Bundles 14 process skills. ~215K★.</p>
         </div>
         <div class="links">
           <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener">github →</a>
         </div>
       </div>
-      <div class="row">
-        <div class="marker">[+]</div>
-        <div class="body">
-          <strong>rtk (RTK OpenCode plugin)</strong> <span class="meta">requires rtk binary</span>
-          <p class="desc">A thin delegating plugin that rewrites Bash tool calls to <code>rtk</code> equivalents — compressing command output (git, cargo, pytest, docker, kubectl, …) by 60-90% before it hits the LLM context. ~57K★ · MIT.</p>
-        </div>
-        <div class="links">
-          <a href="https://github.com/rtk-ai/rtk" target="_blank" rel="noopener">github →</a>
-          <a href="https://www.rtk-ai.app" target="_blank" rel="noopener">site →</a>
-        </div>
-      </div>
+
     </div>
 
-    <p class="doc-source">Local plugin file: <code>~/.opencode/plugins/graphify.js</code> — companion to the <a href="https://github.com/safishamsi/graphify" target="_blank" rel="noopener">Graphify</a> knowledge-graph skill below.</p>
+    <p class="doc-source">Graphify plugin: <code>.opencode/plugins/graphify.js</code> — ships as a local plugin (see install block above). Companion to the <a href="https://github.com/safishamsi/graphify" target="_blank" rel="noopener">Graphify</a> knowledge-graph skill below.</p>
   </section>
 
   <!-- SKILLS -->
@@ -547,6 +537,20 @@
       <div class="row"><div class="marker">[+]</div><div class="body"><strong>code-simplify</strong> <span class="meta">clarity refiner</span><p>Refines recently-modified code for clarity / consistency / maintainability without changing behavior. Boris Cherny's <code>/simplify</code> as a portable skill.</p></div><div class="links"><a href="https://github.com/lyen1688/code-simplifier" target="_blank" rel="noopener">src →</a></div></div>
       <div class="row"><div class="marker">[+]</div><div class="body"><strong>readme-writer</strong> <span class="meta">auto-exploring README</span><p>Generates README documentation grounded in actual code, not assumptions.</p></div><div class="links"><a href="https://github.com/5Mcv4He/github-readme-skill" target="_blank" rel="noopener">src →</a></div></div>
       <div class="row"><div class="marker">[+]</div><div class="body"><strong>resume-refiner</strong> <span class="meta">CV / resume polishing</span><p>Improve wording, structure, and visual polish of existing resumes.</p></div><div class="links"><a href="https://github.com/earino/resumasher" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>simplify</strong> <span class="meta">code clarity</span><p>Simplifies code for clarity without changing behavior. Use for readability, maintainability, complexity reduction after behavior is understood.</p></div><div class="links"><a href="https://github.com/anthropics/skills/tree/main/skills/simplify" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>agent-browser</strong> <span class="meta">browser automation CLI</span><p>Browser automation for AI agents — navigate pages, fill forms, click buttons, screenshots, extract data, test web apps.</p></div><div class="links"><a href="https://github.com/anthropics/skills/tree/main/skills/agent-browser" target="_blank" rel="noopener">src →</a></div></div>
+    </div>
+
+    <h3><span class="marker">[x]</span> oh-my-opencode-slim <span class="count">— bundled plugin skills (alvinunreal/oh-my-opencode-slim)</span></h3>
+    <div class="row-list skill-list" data-source="oh-my-opencode-slim">
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>oh-my-opencode-slim</strong> <span class="meta">plugin self-config</span><p>Configure and improve oh-my-opencode-slim — tune agents, models, prompts, skills, MCPs, presets, and plugin behavior.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>worktrees</strong> <span class="meta">Git worktree isolation</span><p>Manage Git worktrees as OMO safe isolated coding lanes for complex, risky, or parallel work.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/worktrees" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>codemap</strong> <span class="meta">hierarchical repository map</span><p>Generate comprehensive hierarchical codemaps for unfamiliar repositories. Expensive operation — use only when explicitly asked.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/codemap" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>clonedeps</strong> <span class="meta">clone dependency source</span><p>Clone important project dependency source code into an ignored local workspace so agents can inspect library internals.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/clonedeps" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>deepwork</strong> <span class="meta">heavy coding sessions</span><p>Orchestrator-only workflow for heavy coding sessions, multi-phase implementation, and risky refactors with review gates.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/deepwork" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>reflect</strong> <span class="meta">learn from past sessions</span><p>Review recent work, find repeated workflow patterns, and suggest reusable skills, agents, config changes, or playbooks.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/reflect" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>loop-engineering</strong> <span class="meta">runtime Grill + Monitor</span><p>Loop engineering runtime that combines grilling and monitoring for iterative improvement cycles.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/loop-engineering" target="_blank" rel="noopener">src →</a></div></div>
+      <div class="row"><div class="marker">[+]</div><div class="body"><strong>release-smoke-test</strong> <span class="meta">plugin QA</span><p>Test an oh-my-opencode-slim release candidate or bugfix before publishing — validates packed plugin artifacts, crash fixes, runtime compat.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/release-smoke-test" target="_blank" rel="noopener">src →</a></div></div>
     </div>
   </section>
 
@@ -565,6 +569,11 @@
         <div class="name"><span class="marker off">●</span> playwright <span class="tag community">local</span></div>
         <div class="desc">Browser automation MCP — navigate, fill forms, click, screenshot, scrape data, run end-to-end web tests via Playwright.</div>
         <div class="meta">Command · <code>npx @playwright/mcp@latest</code> · <a href="https://github.com/microsoft/playwright-mcp" target="_blank" rel="noopener">github.com/microsoft/playwright-mcp</a></div>
+      </div>
+      <div class="mcp">
+        <div class="name"><span class="marker">●</span> context7 <span class="tag community">remote</span></div>
+        <div class="desc">Up-to-date library docs and code examples — resolves package IDs and queries official documentation for any framework or library. Used by librarian and explorer agents.</div>
+        <div class="meta">Built-in · <a href="https://context7.com" target="_blank" rel="noopener">context7.com</a></div>
       </div>
     </div>
   </section>
@@ -606,8 +615,8 @@
 
   <!-- DESIGN THEMES -->
   <section id="themes">
-    <div class="sec-label">[+] design theme library <span class="count">(66 brand-style references)</span></div>
-    <p class="sec-sub">The <code>design-md/</code> folder holds 66 brand-style <code>DESIGN.md</code> systems used as the source of truth for visual artifacts. Pick one before generating HTML / slides / reports; the agent follows its token system strictly.</p>
+    <div class="sec-label">[+] design theme library <span class="count">(71 brand-style references)</span></div>
+    <p class="sec-sub">The <code>design-md/</code> folder holds 71 brand-style <code>DESIGN.md</code> systems used as the source of truth for visual artifacts. Pick one before generating HTML / slides / reports; the agent follows its token system strictly.</p>
     <p class="sec-src">Source · <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noopener">VoltAgent/awesome-design-md</a> — a curated catalog of brand design systems used as visual style references.</p>
 
     <div class="filter">
