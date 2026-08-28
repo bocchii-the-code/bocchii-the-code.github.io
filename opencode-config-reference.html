@@ -440,11 +440,11 @@
   <!-- PLUGINS -->
   <section id="plugins">
     <div class="sec-label">[+] plugins</div>
-    <p class="sec-sub">Four active plugins extend opencode: an agent orchestrator, a desktop notifier, the Superpowers methodology pack, and a local knowledge-graph plugin. Install via <code>opencode.json → plugin</code>.</p>
+    <p class="sec-sub">Six active plugins extend opencode: an agent orchestrator, a desktop notifier, the lazy-mode guardrail, the Superpowers methodology pack, a knowledge-graph plugin, and the Trellis context/spec layer. Install via <code>opencode.json → plugin</code>.</p>
 
     <div class="install">
-      <code>{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest", "~/.config/opencode/node_modules/superpowers", ".opencode/plugins/graphify.js"] }</code>
-      <button class="copy" data-copy='{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest", "~/.config/opencode/node_modules/superpowers", ".opencode/plugins/graphify.js"] }'>copy</button>
+      <code>{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest", "@dietrichgebert/ponytail", "~/.config/opencode/node_modules/superpowers", ".opencode/plugins/graphify.js", "@mindfoldhq/trellis"] }</code>
+      <button class="copy" data-copy='{ "plugin": ["oh-my-opencode-slim@latest", "@mohak34/opencode-notifier@latest", "@dietrichgebert/ponytail", "~/.config/opencode/node_modules/superpowers", ".opencode/plugins/graphify.js", "@mindfoldhq/trellis"] }'>copy</button>
     </div>
 
     <div class="row-list">
@@ -478,6 +478,28 @@
         </div>
         <div class="links">
           <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener">github →</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="marker">[+]</div>
+        <div class="body">
+          <strong>@dietrichgebert/ponytail</strong> <span class="meta">npm</span>
+          <p class="desc">Ponytail mode — lazy-senior-dev guardrails: shortest-diff discipline, stdlib-before-deps, delete-over-add. Lite / full / ultra intensity levels. Always active in this config.</p>
+        </div>
+        <div class="links">
+          <a href="https://github.com/dietrichgebert/ponytail" target="_blank" rel="noopener">github →</a>
+          <a href="https://www.npmjs.com/package/@dietrichgebert/ponytail" target="_blank" rel="noopener">npm →</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="marker">[+]</div>
+        <div class="body">
+          <strong>@mindfoldhq/trellis</strong> <span class="meta">npm</span>
+          <p class="desc">Context + spec layer for long-running agent sessions — bundles four skills (trellis-channel, trellis-meta, trellis-session-insight, trellis-spec-bootstrap) that keep spec, channel, and session state coherent across handoffs.</p>
+        </div>
+        <div class="links">
+          <a href="https://github.com/mindfoldhq/trellis" target="_blank" rel="noopener">github →</a>
+          <a href="https://www.npmjs.com/package/@mindfoldhq/trellis" target="_blank" rel="noopener">npm →</a>
         </div>
       </div>
 
@@ -552,6 +574,75 @@
       <div class="row"><div class="marker">[+]</div><div class="body"><strong>loop-engineering</strong> <span class="meta">runtime Grill + Monitor</span><p>Loop engineering runtime that combines grilling and monitoring for iterative improvement cycles.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/loop-engineering" target="_blank" rel="noopener">src →</a></div></div>
       <div class="row"><div class="marker">[+]</div><div class="body"><strong>release-smoke-test</strong> <span class="meta">plugin QA</span><p>Test an oh-my-opencode-slim release candidate or bugfix before publishing — validates packed plugin artifacts, crash fixes, runtime compat.</p></div><div class="links"><a href="https://github.com/alvinunreal/oh-my-opencode-slim/tree/master/src/skills/release-smoke-test" target="_blank" rel="noopener">src →</a></div></div>
     </div>
+
+    <h3><span class="marker">[x]</span> skill.sh ecosystem <span class="count">— installed via <code>npx skills add</code>, loaded from <code>~/.agents/skills/</code></span></h3>
+    <div class="install">
+      <code>npx skills add mattpocock/skills</code>
+      <button class="copy" data-copy="npx skills add mattpocock/skills">copy</button>
+    </div>
+    <p class="sec-src">Source · <a href="https://skills.sh" target="_blank" rel="noopener">skills.sh</a> — Vercel Labs' open agent-skills directory. Install packs with <code>npx skills add &lt;owner/repo&gt;</code>; OpenCode loads the result from the agent-compatible path <code>~/.agents/skills/&lt;name&gt;/SKILL.md</code>.</p>
+
+    <div class="theme-grid" data-cat="skillsh" style="margin-top:16px">
+      <div class="theme"><span class="name">agent-browser</span><span class="meta">anthropics</span></div>
+      <div class="theme"><span class="name">api-and-interface-design</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">ask-matt</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">ci-cd-and-automation</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">code-review</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">code-review-and-quality</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">code-simplification</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">codebase-design</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">context-engineering</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">convert-documents-to-markdown</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">debugging-and-error-recovery</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">deprecation-and-migration</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">diagnosing-bugs</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">documentation-and-adrs</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">domain-modeling</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">doubt-driven-development</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">extract_report</span><span class="meta">local</span></div>
+      <div class="theme"><span class="name">frontend-ui-engineering</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">git-workflow-and-versioning</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">grill-me</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">grill-with-docs</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">grilling</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">hallmark</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">handoff</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">i-have-adhd</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">idea-refine</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">implement</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">improve-codebase-architecture</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">incremental-implementation</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">interview-me</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">observability-and-instrumentation</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">performance-optimization</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">planning-and-task-breakdown</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">prototype</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">research</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">resolving-merge-conflicts</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">security-and-hardening</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">setup-matt-pocock-skills</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">shipping-and-launch</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">simplify</span><span class="meta">anthropics</span></div>
+      <div class="theme"><span class="name">source-driven-development</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">spec-driven-development</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">tdd</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">teach</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">test-driven-development</span><span class="meta">obra</span></div>
+      <div class="theme"><span class="name">to-spec</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">to-tickets</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">triage</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand-chat</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand-dashboard</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand-diff</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand-domain</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand-explain</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand-knowledge</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">understand-onboard</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">using-agent-skills</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">wayfinder</span><span class="meta">mattpocock</span></div>
+      <div class="theme"><span class="name">writing-great-skills</span><span class="meta">mattpocock</span></div>
+    </div>
   </section>
 
   <!-- MCP SERVERS -->
@@ -573,7 +664,7 @@
       <div class="mcp">
         <div class="name"><span class="marker">●</span> context7 <span class="tag community">remote</span></div>
         <div class="desc">Up-to-date library docs and code examples — resolves package IDs and queries official documentation for any framework or library. Used by librarian and explorer agents.</div>
-        <div class="meta">Built-in · <a href="https://context7.com" target="_blank" rel="noopener">context7.com</a></div>
+        <div class="meta">URL · <a href="https://mcp.context7.com/mcp" target="_blank" rel="noopener">mcp.context7.com/mcp</a> · <a href="https://context7.com" target="_blank" rel="noopener">context7.com</a></div>
       </div>
     </div>
   </section>
@@ -600,16 +691,40 @@
     <p class="sec-sub">User-invoked commands live in <code>~/.config/opencode/commands/</code>. Type <code>/&lt;name&gt;</code> in the TUI to trigger.</p>
 
     <div class="cmd-row">
-      <div class="name">/code-simplifier</div>
+      <div class="name">/audit-docstrings</div>
+      <div class="desc">Audit docstrings against the project's docstring contract — flag reST style, fabricated :raises:, drift between docstring and code contract, missing Args/Returns/Raises.</div>
+    </div>
+    <div class="cmd-row">
+      <div class="name">/code-review</div>
+      <div class="desc">Multi-axis code review — Standards (does it follow the repo's coding standards?) and Spec (does it match the originating issue/spec?). Reports both axes side by side.</div>
+    </div>
+    <div class="cmd-row">
+      <div class="name">/code-simplification</div>
       <div class="desc">Run a focused simplification review — finds overly verbose code, complex control flow, and unnecessary abstractions, then proposes minimal-impact fixes.</div>
+    </div>
+    <div class="cmd-row">
+      <div class="name">/commit</div>
+      <div class="desc">Stage the right files, draft a concise commit message matching the repo style, and commit. Never commits secrets; never amends prior commits.</div>
+    </div>
+    <div class="cmd-row">
+      <div class="name">/eli5</div>
+      <div class="desc">Explain the current change in plain language a non-engineer can follow. Used to sanity-check that an implementation's intent is actually clear.</div>
     </div>
     <div class="cmd-row">
       <div class="name">/grill-me</div>
       <div class="desc">Relentlessly interview the user about a plan or design until every branch of the decision tree is resolved, one question at a time.</div>
     </div>
     <div class="cmd-row">
+      <div class="name">/grill-with-doc</div>
+      <div class="desc">Same grilling loop, but each answer is captured into a CONTEXT.md / ADR alongside the interview so the rationale is preserved.</div>
+    </div>
+    <div class="cmd-row">
       <div class="name">/karpathy-guidelines</div>
       <div class="desc">Apply Karpathy's four LLM-coding principles: think first, simplicity first, surgical changes, goal-driven execution.</div>
+    </div>
+    <div class="cmd-row">
+      <div class="name">/wait-what</div>
+      <div class="desc">Stop. The last message did not land — re-pitch it. Use when a reply feels off-target, confidently wrong, or missing the actual ask.</div>
     </div>
   </section>
 
